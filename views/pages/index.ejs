@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<%- include('../partials/_head') %>
+</head>
+
+<body>
+	<style>
+		body {
+			background-image: url('https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg');
+			position: relative;
+			overflow: hidden;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100vh;
+			background-repeat: no-repeat;
+			background-size: cover;
+	
+		}
+	</style>
+<header>
+	<%- include("../partials/_header") %>
+</header>
+
+	<div class="slider-container">
+
+		<div class="slide"></div>
+		<div class="slide"></div>
+		<div class="slide"></div>
+		<main>
+			<section id="index-text" class="center">
+				<h1>Wellcome to the best exotic destination suggestions.
+					We hope you will find your paradise
+					which will make you happy :)
+				</h1>
+				<br>
+				<div class="btn">
+					<a href="home">Start your journey!</a>
+				</div>
+			</section>
+		</main>
+	</div>
+	<span class="js-include-html" data-filename="partial/footer.html"></span>
+	<script src="js/script.js"></script>
+	<script src="js/jqueryScript.js"></script>
+	<script src="js/music.js"></script>
+	<script>
+		const slides = document.querySelectorAll('.slide');
+		const slideInterval = setInterval(nextSlide, 5000);
+		let currentSlide = 0;
+
+		function nextSlide() {
+			slides[currentSlide].classList.remove('active');
+			currentSlide = (currentSlide + 1) % slides.length;
+			slides[currentSlide].classList.add('active');
+		}
+
+	</script>
+</body>
+
+</html>
