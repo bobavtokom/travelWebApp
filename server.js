@@ -1,11 +1,21 @@
+
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 const ejs = require("ejs");
 
 app.set("view engine", "ejs");
 app.use(express.static('public'));
+var db;
+const mongoose = require('mongoose');
 
-app.listen(process.env.PORT || 3000, () => console.log("server started"));
+main().catch(err => console.log(err));
+
+async function main() {
+  await mongoose.connect('mongodb://127.0.0.1:27017/firstdb');
+};
+
+app.listen(process.env.PORT || 3000, () => console.log("connected"));
 
 app.get("/", function(req, res){
     res.render("pages/index");
