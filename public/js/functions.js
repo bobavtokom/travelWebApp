@@ -1,4 +1,4 @@
-function InitSidebar() {
+// function InitSidebar() {
     $('.menu li:has(ul)').click(function (e) {
         e.preventDefault();
 
@@ -16,7 +16,7 @@ function InitSidebar() {
             window.location.href = $(this).attr('href');
         })
     });
-}
+// }
 
 function ActivateNavbarLink() {
     var url = window.location.pathname;

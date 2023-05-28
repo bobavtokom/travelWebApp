@@ -9,8 +9,9 @@
 	<%- include("../partials/_header") %>
 </header>
 	<main id="ham-main">
-		<span class="js-include-html" data-filename="partial/_sidebar.htm" data-function="InitSidebar()"></span>
-
+		<!-- <span class="js-include-html" data-filename="partial/_sidebar.htm" data-function="InitSidebar()"></span> -->
+		<%- include('../partials/_sidebar') %>
+		
 		<section class="left">
 			<div id="top-rated">
 				<span class="js-gettop3liked-json" data-filename="data/articles.json"></span>
