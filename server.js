@@ -13,9 +13,9 @@ main().catch(err => console.log(err));
 
 async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/firstdb');
+  console.log("db connected");
 };
-
-app.listen(process.env.PORT || 3000, () => console.log("connected"));
+app.listen(process.env.PORT || 3000, () => console.log("server started"));
 
 app.get("/", function(req, res){
     res.render("pages/index");
