@@ -1,3 +1,15 @@
+import DestinationModel from './DestinationModel';
+const worldTravel = new DestinationModel({
+    id: "2",
+    class: "",
+    title: "Tyrol Austria",
+    imageUrl: "https://www.shutterstock.com/image-photo/village-inneralpbach-alpbach-valleyaustriatirol-260nw-543923905.jpg",
+    imageText: "Tyrol Austria",
+    description: "Tyrol is a western Austrian state in the Alps that&apos;s known for its ski resorts, historic sites and folk traditions. The capital city, Innsbruck, surrounded by mountains, is home to Habsburg Empire landmarks like baroque-style Hofburg Palace and Gothic Hofkirche Church. The city&apos;s symbol is the 15th-century Goldenes Dachl, a loggia topped with gleaming copper tiles commissioned by Habsburg Emperor Maximilian",
+    likes: "0",
+    dislikes: "0"
+});
+
 const ReloadTop3Destination = () => {
 	const spanElement = document.querySelector("#top-rated>span");
 	if (spanElement) {
@@ -25,18 +37,30 @@ const UpdateDislikeNumber = id => {
 	});
 	ReloadTop3Destination();
 }
+//  var likeButton = querySelectorAll("fa fa-thumbs-up");
 
-const LikeButtonClick = e => {
-	let articleElement = e.srcElement.parentElement;
-	if (e.srcElement.classList.contains("fa")) {
-		articleElement = e.srcElement.parentElement.parentElement;
-	}
-	const articleId = articleElement.getAttribute('data-article-id');
-	let newValue = GetLikesByArticleId(articleId) + 1;
 
-	SetLikesByArticleId(articleId, newValue);
-	UpdateLikeNumber(articleId);
+function like(event) {
+	let parentDiv = event.target.closest('div');
+	let divId = parentDiv.id;
+	let likeSpan = parentDiv.querySelector('span');
+	let likespanvalue = parseInt(likeSpan.innerHTML);
+	    likespanvalue += 1;
+		likeSpan.innerHTML = likespanvalue;
+		worldTravel.likes = likespanvalue;
 }
+		// worldTravel.findByIdAndUpdate(
+		// 	{id: divId},
+		// 	{likes: likespanvalue},
+		// 	{new: true},
+		// 	(err, updatedDoc) => {
+		// 		if (err) {
+		// 		  console.error(err);
+		// 		} else {
+		// 		  console.log(updatedDoc);
+		// 		}
+		// 	});
+  		// }
 
 const DislikeButtonClick = e => {
 	let articleElement = e.srcElement.parentElement;
@@ -192,6 +216,7 @@ function closeLeftSidebar() {
 	document.getElementById("sidebar").style.left = "-250px";
 }
 
+
 const LoadJS = (FILE_URL, async = true) => {
 	let scriptEle = document.createElement("script");
 
@@ -282,7 +307,6 @@ const IncludeFromJSON = () => {
 						});
 						includeElement.innerHTML = output;
 
-						includeElement.querySelectorAll("#like-button").forEach(item => item.addEventListener("click", LikeButtonClick));
 						includeElement.querySelectorAll("#dislike-button").forEach(item => item.addEventListener("click", DislikeButtonClick));
 
 					}

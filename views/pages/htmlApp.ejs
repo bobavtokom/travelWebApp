@@ -9,7 +9,6 @@
 	<%- include("../partials/_header") %>
 </header>
 	<main id="ham-main">
-		<!-- <span class="js-include-html" data-filename="partial/_sidebar.htm" data-function="InitSidebar()"></span> -->
 		<%- include('../partials/_sidebar') %>
 		
 		<section class="left">
@@ -18,7 +17,19 @@
 			</div>
 		</section>
 		<section class="center">
-			<span class="js-include-json" data-filename="data/articles.json"></span>
+			<% data.forEach(article => { %>
+				<div class="container article-world <%= article.class %> " id="<%= article.id %>">
+					<h2 class = "article-title"><%= article.title %></h2>
+					<img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
+					<p class="description"><%= article.description %></p>
+					<button id="like-button" onclick="like(event)"><i class="fa fa-thumbs-up"></i> Like</button>
+					<button id="dislike-button" onclick="dislike(event)"><i class="fa fa-thumbs-down"></i> Dislike</button>
+					<div>
+						<span id="like-count"><%= article.likes %></span> likes,
+						<span id="dislike-count"><%= article.dislikes %></span> dislikes
+					</div>
+				</div>
+			  <% }) %>
 		</section>
 		<section class="right">
 			<img src="https://media1.giphy.com/media/l3E6Ek4zKHFXGOzFm/giphy.gif" alt="image" />
@@ -46,9 +57,10 @@
 <footer>
 	<%- include('../partials/_footer') %>
 </footer>
-	<script src="js/script.js"></script>
+	<script src="js/script.js" type="module"></script>
 	<script src="js/jqueryScript.js"></script>
 	<script src="js/music.js"></script>
+	<script src="dist/bundle.js" type="module"></script>
 	<!-- <script src="js/chat-script.js"></script> -->
 
 </body>
