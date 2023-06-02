@@ -40,29 +40,31 @@ const UpdateDislikeNumber = id => {
 //  var likeButton = querySelectorAll("fa fa-thumbs-up");
 
 
-function like(event) {
+function like (event) {
 	let parentDiv = event.target.closest('div');
 	let divId = parentDiv.id;
 	let likeSpan = parentDiv.querySelector('span');
 	let likespanvalue = parseInt(likeSpan.innerHTML);
 	    likespanvalue += 1;
 		likeSpan.innerHTML = likespanvalue;
+		console.log(likespanvalue);
 		worldTravel.likes = likespanvalue;
 }
-		// worldTravel.findByIdAndUpdate(
-		// 	{id: divId},
-		// 	{likes: likespanvalue},
-		// 	{new: true},
-		// 	(err, updatedDoc) => {
-		// 		if (err) {
-		// 		  console.error(err);
-		// 		} else {
-		// 		  console.log(updatedDoc);
-		// 		}
-		// 	});
-  		// }
+		worldTravel.findByIdAndUpdate(
+			{id: divId},
+			{likes: likespanvalue},
+			{new: true},
+			(err, updatedDoc) => {
+				if (err) {
+				  console.error(err);
+				} else {
+				  console.log(updatedDoc);
+				}
+			});
+  		
+	
 
-const DislikeButtonClick = e => {
+function DislikeButtonClick(e) {
 	let articleElement = e.srcElement.parentElement;
 	if (e.srcElement.classList.contains("fa")) {
 		articleElement = e.srcElement.parentElement.parentElement;

@@ -45,7 +45,6 @@ const worldTravel = new DestinationModel({
 //     console.error('Error saving data:', error);
 //   });
 
-
 app.listen(process.env.PORT || 8080, () => console.log("server started"));
 
 app.get("/", function(req, res){
