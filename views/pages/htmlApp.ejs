@@ -3,6 +3,7 @@
 
 <head>
 	<%- include('../partials/_head') %>
+	
 </head>
 <body>
 <header>
@@ -16,20 +17,22 @@
 				<span class="js-gettop3liked-json" data-filename="data/articles.json"></span>
 			</div>
 		</section>
+		<script src="js/script.js"></script>
 		<section class="center">
 			<% data.forEach(article => { %>
-				<div class="container article-world <%= article.class %> " id="<%= article.id %>">
-					<h2 class = "article-title"><%= article.title %></h2>
-					<img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
-					<p class="description"><%= article.description %></p>
-					<button id="like-button" onclick="like(event)"><i class="fa fa-thumbs-up"></i> Like</button>
-					<button id="dislike-button" onclick="dislike(event)"><i class="fa fa-thumbs-down"></i> Dislike</button>
-					<div>
-						<span id="like-count"><%= article.likes %></span> likes,
-						<span id="dislike-count"><%= article.dislikes %></span> dislikes
-					</div>
+				<div class="container article-world <%= article.class %>" id="<%= article._id %>">
+				  <h2 class="article-title"><%= article.title %></h2>
+				  <img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
+				  <p class="description"><%= article.description %></p>
+				  <button id="like-button" onclick="like('<%= article._id %>')"><i class="fa fa-thumbs-up"></i> Like</button>
+				  <button id="dislike-button" onclick="dislike('<%= article._id %>')"><i class="fa fa-thumbs-down"></i> Dislike</button>
+				  <div>
+					<span id="like-count-<%= article._id %>"><%= article.likes %></span> likes,
+					<span id="dislike-count-<%= article._id %>"><%= article.dislikes %></span> dislikes
+				  </div>
 				</div>
 			  <% }) %>
+			  
 		</section>
 		<section class="right">
 			<img src="https://media1.giphy.com/media/l3E6Ek4zKHFXGOzFm/giphy.gif" alt="image" />
@@ -57,7 +60,6 @@
 <footer>
 	<%- include('../partials/_footer') %>
 </footer>
-	<script src="js/script.js"></script>
 	<script src="js/jqueryScript.js"></script>
 	<script type="module" src="js/music.js"></script>
 	<script src="dist/bundle.js" type="module"></script>

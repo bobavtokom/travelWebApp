@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const mySchema = new Schema({
-  id: Number,
   title: String,
   class: String,
   imageUrl: String,
@@ -12,7 +11,6 @@ const mySchema = new Schema({
 });
 const DestinationModel = mongoose.model('DestinationModel', mySchema);
 const worldTravel = new DestinationModel({
-    id: "2",
     class: "",
     title: "Tyrol Austria",
     imageUrl: "https://www.shutterstock.com/image-photo/village-inneralpbach-alpbach-valleyaustriatirol-260nw-543923905.jpg",

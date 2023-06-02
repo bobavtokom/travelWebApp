@@ -16,7 +16,6 @@ async function main() {
 };
 const Schema = mongoose.Schema;
 const mySchema = new Schema({
-  id: Number,
   title: String,
   class: String,
   imageUrl: String,
@@ -28,7 +27,6 @@ const mySchema = new Schema({
 const DestinationModel = mongoose.model('DestinationModel', mySchema);
 
 const worldTravel = new DestinationModel({
-    id: "2",
     class: "",
     title: "Tyrol Austria",
     imageUrl: "https://www.shutterstock.com/image-photo/village-inneralpbach-alpbach-valleyaustriatirol-260nw-543923905.jpg",
@@ -37,13 +35,7 @@ const worldTravel = new DestinationModel({
     likes: "0",
     dislikes: "0"
 });
-// worldTravel.save()
-//   .then((result) => {
-//     console.log('Data saved successfully:', result);
-//   })
-//   .catch((error) => {
-//     console.error('Error saving data:', error);
-//   });
+
 
 app.listen(process.env.PORT || 8080, () => console.log("server started"));
 
@@ -69,4 +61,44 @@ app.get('/home', async (req, res) => {
         }
     });
   });
-  
+ // Add these routes after the '/home' route
+
+// Like action route
+app.post('/like/:id', async (req, res) => {
+  try {
+    const articleId = req.params.id;
+    const article = await DestinationModel.findById(articleId);
+
+    if (!article) {
+      return res.status(404).send('Article not found');
+    }
+
+    article.likes += 1;
+    await article.save();
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error('Error updating like count:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Dislike action route
+app.post('/dislike/:id', async (req, res) => {
+  try {
+    const articleId = req.params.id;
+    const article = await DestinationModel.findById(articleId);
+
+    if (!article) {
+      return res.status(404).send('Article not found');
+    }
+
+    article.dislikes += 1;
+    await article.save();
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error('Error updating dislike count:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
