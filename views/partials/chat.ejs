@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Live Chat</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      #messages {
+        margin-bottom: 10px;
+      }
+
+      #form {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form id="form" action="">
+      <input id="input" autocomplete="off" /><button>Send</button>
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      // Handle 'connect' event
+      socket.on('connect', () => {
+        console.log('Connected to the server.');
+        
+        fetch('/messages')
+    .then((response) => response.json())
+    .then((messages) => {
+      messages.forEach((message) => {
+        appendMessage(`Server: ${message.content}`);
+      });
+    })
+    .catch((error) => {
+      console.error('Error retrieving messages:', error);
+    });
+        // Handle 'chat message' event
+        socket.on('chat message', (message) => {
+          appendMessage(message);
+        });
+
+        // Handle 'disconnect' event
+        socket.on('disconnect', () => {
+          console.log('Disconnected from the server.');
+        });
+      });
+
+      // Handle form submission
+      document.getElementById('form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const messageInput = document.getElementById('input');
+        const message = messageInput.value;
+        socket.emit('chat message', message);
+        messageInput.value = '';
+        appendMessage(`You: ${message}`);
+      });
+
+      // Append message to the chat window
+      function appendMessage(message) {
+        const messages = document.getElementById('messages');
+        const li = document.createElement('li');
+        li.textContent = message;
+        messages.appendChild(li);
+      }
+    </script>
+    <script src="js/chat-script.js"></script>
+  </body>
+</html>

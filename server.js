@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const ejs = require("ejs");
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
 app.set("view engine", "ejs");
 app.use(express.static('public'));
@@ -35,9 +37,45 @@ const worldTravel = new DestinationModel({
     likes: "0",
     dislikes: "0"
 });
+const chatMessageSchema = new mongoose.Schema({
+  content: String,
+  timestamp: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const ChatMessage = mongoose.model('ChatMessage', chatMessageSchema);
+
+// app.get('/', (req, res) => {
+//   res.sendFile(__dirname + '/views/chat.html');
+// });
+
+io.on('connection', (socket) => {
+  console.log('A user connected.');
+
+  // Broadcast chat messages to connected clients
+  socket.on('chat message', (message) => {
+    // Save the message to the database
+    const chatMessage = new ChatMessage({
+      content: message,
+    });
+    chatMessage.save();
+
+    // Broadcast the message to connected clients
+    io.emit('chat message', message);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('A user disconnected.');
+  });
+});
 
 
-app.listen(process.env.PORT || 8080, () => console.log("server started"));
+const port = 8080;
+http.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
 
 app.get("/", function(req, res){
     res.render("pages/index");
@@ -102,3 +140,15 @@ app.post('/dislike/:id', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+app.get('/messages', async (req, res) => {
+  try {
+    // Retrieve all chat messages from the database
+    const messages = await ChatMessage.find().sort({ timestamp: 1 });
+    res.json(messages);
+  } catch (error) {
+    console.error('Error retrieving messages:', error);
+    res.status(500).json({ error: 'Failed to retrieve messages' });
+  }
+});
+
