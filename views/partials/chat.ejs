@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Live Chat</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-      }
-
-      #messages {
-        margin-bottom: 10px;
-      }
-
-      #form {
-        margin-top: 10px;
-      }
-    </style>
+    <%- include('../partials/_head') %>
+    <link rel="stylesheet" type="text/css" href="css/chat.css">
+    <link rel="stylesheet" type="text/css" href="css/chatbox-style.css">
   </head>
   <body>
-    <ul id="messages"></ul>
-    <form id="form" action="">
-      <input id="input" autocomplete="off" /><button>Send</button>
-    </form>
+    <div class="chatbox-toggle">
+      <i class='bx bx-message-dots'></i>
+  </div>    <div id="live-chat">
+        <div class="chatbox-message-header">
+          <div class="chatbox-message-profile">
+            <img src="https://fiverr-res.cloudinary.com/t_main1,q_auto,f_auto/gigs2/301383703/original/a8cccf825048f406f8868a549aa14d2dda6c3182.jpg"
+                alt="" class="chatbox-message-image">
+            <div>
+                <h4 class="chatbox-message-name">DiffTravelAgency</h4>
+                <p class="chatbox-message-status">online</p>
+            </div>
+        </div>
+        </div>
+      <ul id="messages"></ul>
+      <form id="form" action="">
+        <input id="input" autocomplete="off" placeholder="message..."/>
+      </form>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -68,6 +71,14 @@
         li.textContent = message;
         messages.appendChild(li);
       }
+
+      var chatboxToggle = document.querySelector('.chatbox-toggle')
+    var chatboxMessage = document.querySelector('#live-chat')
+
+    chatboxToggle.addEventListener('click', function () {
+        console.log('hi');
+        chatboxMessage.classList.toggle('show-chat')
+    });
     </script>
     <script src="js/chat-script.js"></script>
   </body>
