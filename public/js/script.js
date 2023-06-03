@@ -1,3 +1,4 @@
+
 const ReloadTop3Destination = () => {
 	const spanElement = document.querySelector("#top-rated>span");
 	if (spanElement) {
@@ -69,6 +70,7 @@ const SetDislikesByArticleId = (id, value) => {
 	const storageKey = 'dislikes-' + id;
 	localStorage.setItem(storageKey, value);
 }
+
 function toggleHamburger() {
 	const menu = document.querySelector('.hamburger-menu');
 	menu.classList.toggle("act");
@@ -301,4 +303,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	IncludeFromHtml();
 	IncludeFromJSON();
 	GetTop3LikedArticles();
+
+	// document.querySelectorAll("#like-button-mongo").forEach(item => item.addEventListener("click", LikeButtonMongoClick));
 });
