@@ -11,7 +11,7 @@
 	</header>
 	
 		<main id="ham-main">
-			<!-- Left Side bar -->
+			<%- include('../partials/_sidebar') %>
 			<span class="js-include-html" data-filename="partial/_sidebar.htm" data-function="InitSidebar()"></span>
 
 			<section class="center">
@@ -29,7 +29,7 @@
 				<br>
 			</section>
 		</main>
-		<%- include('../partials/_chatbox-window') %>
+		<%- include('../partials/chat') %>
 			<footer>
 				<%- include('../partials/_footer') %>
 			</footer>

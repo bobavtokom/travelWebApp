@@ -9,9 +9,9 @@
 	<header>
 		<%- include("../partials/_header") %>
 	</header>
-
+	
 		<span class="js-include-html" data-filename="partial/header.html" data-function="ActivateNavbarLink()"></span>
-
+		<%- include('../partials/_sidebar') %>
 		<main id="ham-main">
 			<!-- Left Side bar -->
 			<span class="js-include-html" data-filename="partial/_sidebar.htm" data-function="InitSidebar()"></span>
@@ -56,7 +56,7 @@
 				</div>
 			</section>
 		</main>
-		<%- include('../partials/_chatbox-window') %>
+		<%- include('../partials/chat') %>
 			<footer>
 				<%- include('../partials/_footer') %>
 			</footer>

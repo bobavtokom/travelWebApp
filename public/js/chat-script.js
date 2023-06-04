@@ -18,10 +18,11 @@ textarea.addEventListener('input', function () {
 
 // TOGGLE CHATBOX
     var chatboxToggle = document.querySelector('.chatbox-toggle')
-    var chatboxMessage = document.querySelector('.chatbox-message-wrapper')
+    var chatboxMessage = document.querySelector('#live-chat')
 
     chatboxToggle.addEventListener('click', function () {
-        chatboxMessage.classList.toggle('show')
+        console.log('hi');
+        chatboxMessage.classList.toggle('show-chat')
     });
 
 // DROPDOWN TOGGLE
