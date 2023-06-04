@@ -1,4 +1,5 @@
-
+const DestinationModel = require('./models/DestinationModel');
+const ChatMessage = require('./models/LiveChatModel');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -16,40 +17,6 @@ async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/firstdb');
   console.log("db connected");
 };
-const Schema = mongoose.Schema;
-const mySchema = new Schema({
-  title: String,
-  class: String,
-  imageUrl: String,
-  imageText: String,
-  description: String,
-  likes: Number,
-  dislikes: Number
-});
-const DestinationModel = mongoose.model('DestinationModel', mySchema);
-
-const worldTravel = new DestinationModel({
-    class: "",
-    title: "Tyrol Austria",
-    imageUrl: "https://www.shutterstock.com/image-photo/village-inneralpbach-alpbach-valleyaustriatirol-260nw-543923905.jpg",
-    imageText: "Tyrol Austria",
-    description: "Tyrol is a western Austrian state in the Alps that&apos;s known for its ski resorts, historic sites and folk traditions. The capital city, Innsbruck, surrounded by mountains, is home to Habsburg Empire landmarks like baroque-style Hofburg Palace and Gothic Hofkirche Church. The city&apos;s symbol is the 15th-century Goldenes Dachl, a loggia topped with gleaming copper tiles commissioned by Habsburg Emperor Maximilian",
-    likes: "0",
-    dislikes: "0"
-});
-const chatMessageSchema = new mongoose.Schema({
-  content: String,
-  timestamp: {
-    type: Date,
-    default: Date.now,
-  },
-});
-
-const ChatMessage = mongoose.model('ChatMessage', chatMessageSchema);
-
-// app.get('/', (req, res) => {
-//   res.sendFile(__dirname + '/views/chat.html');
-// });
 
 io.on('connection', (socket) => {
   console.log('A user connected.');
