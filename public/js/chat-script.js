@@ -1,102 +1,51 @@
-// MESSAGE INPUT
-var textarea = document.querySelector('.chatbox-message-input')
-var chatboxForm = document.querySelector('.chatbox-message-form')
+const socket = io();
 
-textarea.addEventListener('input', function () {
-    let line = textarea.value.split('\n').length
+// Handle 'connect' event
+socket.on('connect', () => {
+  console.log('Connected to the server.');
 
-    if (textarea.rows < 6 || line < 6) {
-        textarea.rows = line
-    }
-
-    if (textarea.rows > 1) {
-        chatboxForm.style.alignItems = 'flex-end'
-    } else {
-        chatboxForm.style.alignItems = 'center'
-    }
-})
-
-// TOGGLE CHATBOX
-    var chatboxToggle = document.querySelector('.chatbox-toggle')
-    var chatboxMessage = document.querySelector('#live-chat')
-
-    chatboxToggle.addEventListener('click', function () {
-        console.log('hi');
-        chatboxMessage.classList.toggle('show-chat')
+  fetch('/messages')
+    .then((response) => response.json())
+    .then((messages) => {
+      messages.forEach((message) => {
+        appendMessage(`Server: ${message.content}`);
+      });
+    })
+    .catch((error) => {
+      console.error('Error retrieving messages:', error);
     });
+  // Handle 'chat message' event
+  socket.on('chat message', (message) => {
+    appendMessage(message);
+  });
 
-// DROPDOWN TOGGLE
-var dropdownToggle = document.querySelector('.chatbox-message-dropdown-toggle')
-var dropdownMenu = document.querySelector('.chatbox-message-dropdown-menu')
+  // Handle 'disconnect' event
+  socket.on('disconnect', () => {
+    console.log('Disconnected from the server.');
+  });
+});
 
-dropdownToggle.addEventListener('click', function () {
-    dropdownMenu.classList.toggle('show')
-})
-
-document.addEventListener('click', function (e) {
-    if (!e.target.matches('.chatbox-message-dropdown, .chatbox-message-dropdown *')) {
-        dropdownMenu.classList.remove('show')
-    }
-})
-
-// CHATBOX MESSAGE
-var chatboxMessageWrapper = document.querySelector('.chatbox-message-content')
-var chatboxNoMessage = document.querySelector('.chatbox-message-no-message')
-//function SendChatMessage(){
-chatboxForm.addEventListener('submit', function (e) {
-    e.preventDefault()
-
-    if (isValid(textarea.value)) {
-        writeMessage()
-        setTimeout(autoReply, 1000)
-    }
-})
-//}
-
-function addZero(num) {
-    return num < 10 ? '0' + num : num
+// Handle form submission
+document.getElementById('form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const messageInput = document.getElementById('input');
+  const message = messageInput.value;
+  socket.emit('chat message', message);
+  messageInput.value = '';
+  appendMessage(`You: ${message}`);
+});
+function appendMessage(message) {
+  const messages = document.getElementById('messages');
+  const li = document.createElement('li');
+  li.textContent = message;
+  messages.appendChild(li);
 }
 
-function writeMessage() {
-    const today = new Date()
-    let message = `
-		<div class="chatbox-message-item sent">
-			<span class="chatbox-message-item-text">
-				${textarea.value.trim().replace(/\n/g, '<br>\n')}
-			</span>
-			<span class="chatbox-message-item-time">${addZero(today.getHours())}:${addZero(today.getMinutes())}</span>
-		</div>
-	`
-    chatboxMessageWrapper.insertAdjacentHTML('beforeend', message)
-    chatboxForm.style.alignItems = 'center'
-    textarea.rows = 1
-    textarea.focus()
-    textarea.value = ''
-    chatboxNoMessage.style.display = 'none'
-    scrollBottom()
-}
 
-function autoReply() {
-    const today = new Date()
-    let message = `
-		<div class="chatbox-message-item received">
-			<span class="chatbox-message-item-text">
-				Thank you for your message.
-			</span>
-			<span class="chatbox-message-item-time">${addZero(today.getHours())}:${addZero(today.getMinutes())}</span>
-		</div>
-	`
-    chatboxMessageWrapper.insertAdjacentHTML('beforeend', message)
-    scrollBottom()
-}
+var chatboxToggle = document.querySelector('.chatbox-toggle')
+var chatboxMessage = document.querySelector('#live-chat')
 
-function scrollBottom() {
-    chatboxMessageWrapper.scrollTo(0, chatboxMessageWrapper.scrollHeight)
-}
-
-function isValid(value) {
-    let text = value.replace(/\n/g, '')
-    text = text.replace(/\s/g, '')
-
-    return text.length > 0
-}
+chatboxToggle.addEventListener('click', function () {
+  console.log('hi');
+  chatboxMessage.classList.toggle('show-chat')
+});
