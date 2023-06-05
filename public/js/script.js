@@ -1,8 +1,4 @@
 
-<<<<<<< HEAD
-=======
-
->>>>>>> a510759b64144562c50b8c605adfc9c0ebdd28fc
 const ReloadTop3Destination = () => {
 	const spanElement = document.querySelector("#top-rated>span");
 	if (spanElement) {
