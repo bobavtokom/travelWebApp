@@ -99,6 +99,12 @@ select {
 	width: 4rem;
 	height: 4rem;
 }
+@media screen and (max-width: 1100px) {
+    #logo-name{
+	  display: none;
+	}
+  }
+  
 .chatbox-toggle {
 	position: fixed;
 	left: 5%;

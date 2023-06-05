@@ -47,6 +47,13 @@ http.listen(port, () => {
 app.get("/", function(req, res){
     res.render("pages/index");
 });
+app.get("/destination/:id", function(req, res){
+  const showId = req.params.id;
+  DestinationModel.findById({_id: showId})
+  .then((data) => {
+    res.render('pages/show', {article: data});
+  })
+})
 app.get("/about", function(req,res){
     res.render('pages/about');
 });

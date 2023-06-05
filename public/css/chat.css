@@ -8,6 +8,7 @@ body {
     padding: 2%;
     list-style: none;
     width: 90%;
+    overflow-y: auto;
   }
 
   #form {
@@ -29,7 +30,10 @@ body {
     left: 2%;
     bottom: 5%;
   }
+  
+
   #live-chat.show-chat {
+    top: 10%;
     visibility: visible;
     bottom: 25%;
     left: 10%

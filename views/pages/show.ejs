@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<%- include('../partials/_head') %>
+	
+</head>
+<body>
+<header>
+	<%- include("../partials/_header") %>
+</header>
+	<main id="ham-main">
+		<%- include('../partials/_sidebar') %>
+		
+		
+				
+		<script src="js/script.js"></script>
+		<section class="center">
+			
+				<a href="/destination/<%= article._id %>"><div class="container article-world <%= article.class %>" id="<%= article._id %>">
+				  <h2 class="article-title"><%= article.title %></h2>
+				  <img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
+				  <p class="description"><%= article.description.substring(0,100) %></p>
+				  <button id="like-button" onclick="like('<%= article._id %>')"><i class="fa fa-thumbs-up"></i> Like</button>
+				  <button id="dislike-button" onclick="dislike('<%= article._id %>')"><i class="fa fa-thumbs-down"></i> Dislike</button>
+				  <div>
+					<span id="like-count-<%= article._id %>"><%= article.likes %></span> likes,
+					<span id="dislike-count-<%= article._id %>"><%= article.dislikes %></span> dislikes
+				  </div>
+				</div></a>
+			  
+			  
+		</section>
+		
+		
+	</main>
+	<%- include('../partials/chat') %>
+<footer>
+	<%- include('../partials/_footer') %>
+</footer>
+	<script src="js/jqueryScript.js"></script>
+	<script src="js/likeDislike.js"></script>
+	<script type="module" src="js/music.js"></script>
+	<script src="dist/bundle.js" type="module"></script>
+</body>
+</html>
