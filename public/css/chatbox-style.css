@@ -102,6 +102,7 @@ select {
 @media screen and (max-width: 1100px) {
     #logo-name{
 	  display: none;
+	  background-color: #222;
 	}
   }
   
