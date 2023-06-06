@@ -1,15 +1,16 @@
+const mongoose = require('mongoose');
 const DestinationModel = require('./models/DestinationModel');
 const ChatMessage = require('./models/LiveChatModel');
 const express = require('express');
 const app = express();
+const path = require('path');
 const bodyParser = require('body-parser');
 const ejs = require("ejs");
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 app.set("view engine", "ejs");
-app.use(express.static('public'));
-const mongoose = require('mongoose');
+app.use(express.static(path.join(__dirname, 'public')));
 
 main().catch(err => console.log(err));
 
@@ -47,6 +48,13 @@ http.listen(port, () => {
 app.get("/", function(req, res){
     res.render("pages/index");
 });
+app.get("/destination/:id", function(req, res){
+  const showId = req.params.id;
+  DestinationModel.findById({_id: showId})
+  .then((data) => {
+    res.render('pages/show', {article: data});
+  })
+})
 app.get("/about", function(req,res){
     res.render('pages/about');
 });

@@ -1,5 +1,5 @@
 
-window.like = (articleId) => {
+const like = (articleId) => {
     // Send AJAX POST request to the like action route
     fetch(`/like/${articleId}`, {
         method: 'POST',
@@ -18,7 +18,7 @@ window.like = (articleId) => {
         });
 }
 
-window.dislike =(articleId) => {
+const dislike =(articleId) => {
   // Send AJAX POST request to the dislike action route
   fetch(`/dislike/${articleId}`, {
     method: 'POST',

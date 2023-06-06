@@ -14,16 +14,30 @@
 		
 		<section class="left">
 			<div id="top-rated">
-				<span class="js-gettop3liked-json" data-filename="data/articles.json"></span>
+				<!-- <% data.forEach(article => { %>
+					<div class="container article-world <%= article.class %>" id="<%= article._id %>">
+					  <h2 class="article-title"><%= article.title %></h2>
+					  <img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
+					  <p class="description"><%= article.description.substring(0,100) %></p>
+					  <button id="like-button" onclick="like('<%= article._id %>')"><i class="fa fa-thumbs-up"></i> Like</button>
+					  <button id="dislike-button" onclick="dislike('<%= article._id %>')"><i class="fa fa-thumbs-down"></i> Dislike</button>
+					  <div>
+						<span id="like-count-<%= article._id %>"><%= article.likes %></span> likes,
+						<span id="dislike-count-<%= article._id %>"><%= article.dislikes %></span> dislikes
+					  </div>
+					</div>
+				  <% }) %> -->
 			</div>
 		</section>
-		<script src="js/script.js"></script>
+		
 		<section class="center">
 			<% data.forEach(article => { %>
 				<div class="container article-world <%= article.class %>" id="<%= article._id %>">
-				  <h2 class="article-title"><%= article.title %></h2>
-				  <img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
-				  <p class="description"><%= article.description %></p>
+					<a href="/destination/<%= article._id %>">
+						<h2 class="article-title"><%= article.title %></h2>
+						<img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
+						<p class="description"><%= article.description.substring(0,100) %></p>
+					</a>
 				  <button id="like-button" onclick="like('<%= article._id %>')"><i class="fa fa-thumbs-up"></i> Like</button>
 				  <button id="dislike-button" onclick="dislike('<%= article._id %>')"><i class="fa fa-thumbs-down"></i> Dislike</button>
 				  <div>
@@ -60,6 +74,7 @@
 <footer>
 	<%- include('../partials/_footer') %>
 </footer>
+    <script src="js/script.js"></script>
 	<script src="js/jqueryScript.js"></script>
 	<script src="js/likeDislike.js"></script>
 	<script type="module" src="js/music.js"></script>
