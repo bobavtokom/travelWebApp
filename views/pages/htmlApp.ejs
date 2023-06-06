@@ -15,40 +15,37 @@
 		
 		<section class="left">
 			<div id="top-rated">
-
-				<% let top3 = data.sort((a,b) => b.likes - a.likes); %>
-				<% let lastArticle = Math.min(3,top3.length); %>
-				<% top3 = top3.slice(0,lastArticle); %>
-				<%- include('../scripts/functions') %>
-				<% let top3x = GetTopLikedDestination(3); %>
-				<h2>Top <%= lastArticle %> liked destination</h2>
-				<% top3.forEach(article => { %>
-					<div class="container" data-article-id="<%= article._id %>">
-						<h4 class="article-title clickable-title"><%= article.title %></h4>
-						<img class="image clickable-title" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
-						<div>
-							<span id="like-count-<%= article._id %>"><%= article.likes %></span> likes,
-							<span id="dislike-count-<%= article._id %>"><%= article.dislikes %></span> dislikes
-					  		<div hidden data-article-description><%= article.description %></div>
-						</div>
+				<!-- <% data.forEach(article => { %>
+					<div class="container article-world <%= article.class %>" id="<%= article._id %>">
+					  <h2 class="article-title"><%= article.title %></h2>
+					  <img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
+					  <p class="description"><%= article.description.substring(0,100) %></p>
+					  <button id="like-button" onclick="like('<%= article._id %>')"><i class="fa fa-thumbs-up"></i> Like</button>
+					  <button id="dislike-button" onclick="dislike('<%= article._id %>')"><i class="fa fa-thumbs-down"></i> Dislike</button>
+					  <div>
+						<span id="like-count-<%= article._id %>"><%= article.likes %></span> likes,
+						<span id="dislike-count-<%= article._id %>"><%= article.dislikes %></span> dislikes
+					  </div>
 					</div>
-				  <% }) %>
+				  <% }) %> -->
 			</div>
 		</section>
-		<script src="js/script.js"></script>
+		
 		<section class="center">
 			<% data.forEach(article => { %>
-				<a href="/destination/<%= article._id %>"><div class="container article-world <%= article.class %>" id="<%= article._id %>">
-				  <h2 class="article-title clickable-title"><%= article.title %></h2>
-				  <img class="image clickable-title" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
-				  <div class="description" data-article-description><%= article.description.substring(0,97)+"..." %></div>
+				<div class="container article-world <%= article.class %>" id="<%= article._id %>">
+					<a href="/destination/<%= article._id %>">
+						<h2 class="article-title"><%= article.title %></h2>
+						<img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
+						<p class="description"><%= article.description.substring(0,100) %></p>
+					</a>
 				  <button id="like-button" onclick="like('<%= article._id %>')"><i class="fa fa-thumbs-up"></i> Like</button>
 				  <button id="dislike-button" onclick="dislike('<%= article._id %>')"><i class="fa fa-thumbs-down"></i> Dislike</button>
 				  <div>
 					<span id="like-count-<%= article._id %>"><%= article.likes %></span> likes,
 					<span id="dislike-count-<%= article._id %>"><%= article.dislikes %></span> dislikes
 				  </div>
-				</div></a>
+				</div>
 			  <% }) %>
 			  
 		</section>
@@ -78,6 +75,7 @@
 <footer>
 	<%- include('../partials/_footer') %>
 </footer>
+    <script src="js/script.js"></script>
 	<script src="js/jqueryScript.js"></script>
 	<script type="module" src="js/music.js"></script>
 	<script src="dist/bundle.js" type="module"></script>
