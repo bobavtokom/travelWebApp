@@ -7,6 +7,8 @@ const ejs = require("ejs");
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
+app.use(express.urlencoded({ extended: true }));
+
 app.set("view engine", "ejs");
 app.use(express.static('public'));
 const mongoose = require('mongoose');
@@ -53,7 +55,7 @@ app.get("/destination/:id", function(req, res){
   .then((data) => {
     res.render('pages/show', {article: data});
   })
-})
+});
 app.get("/about", function(req,res){
     res.render('pages/about');
 });
@@ -74,6 +76,21 @@ app.get('/home', async (req, res) => {
     });
   });
  // Add these routes after the '/home' route
+
+ app.get("/topLiked/:n", async (req, res) => {
+  const topN = req.params.n;
+  console.log(topN);
+  DestinationModel.find().sort({likes: -1}).limit(n)
+  .then((data) => {
+    res.status(200).send(data);
+  })
+  .catch((err) => {
+    if (err) {
+      console.error('Error getting top liked destination.', err);
+      res.status(500).send('Internal Server Error');
+    }
+  })
+ });
 
 // Like action route
 app.post('/like/:id', async (req, res) => {

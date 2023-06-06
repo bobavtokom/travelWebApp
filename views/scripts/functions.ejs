@@ -1,0 +1,19 @@
+
+<% 
+GetTopLikedDestination = function(n) {
+  const url = `/topLiked/${n}`;
+  fetch(url, {
+    method: 'GET',
+  })
+  .then(res => {
+    if(res.ok) {
+      return res;
+    } else {
+      console.error('functions.ejs: else: Error getting top liked destination', res.status);
+    }
+  })
+  .catch(err => {
+    console.error('functions.ejs: catch: Error getting top liked destination', err);
+  });
+}
+%>
