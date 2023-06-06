@@ -2,7 +2,16 @@
 <html>
 
 <head>
-	<%- include('../partials/_head') %>
+	<link rel="stylesheet" type="text/css" href="/css/htmlApp.css">
+	<link rel="stylesheet" type="text/css" href="/css/accordion.css">
+	<script src="https://kit.fontawesome.com/6a7b1ca22e.js" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script src="/js/functions.js"></script>
+	<meta charset="UTF-8">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="/css/chatbox-style.css">
+    <link rel="stylesheet" type="text/css" href="/css/chat.css">
 	
 </head>
 <body>
@@ -12,35 +21,31 @@
 	<main id="ham-main">
 		<%- include('../partials/_sidebar') %>
 		
-		
-				
-		<script src="js/script.js"></script>
+	
+		<script src="/js/script.js"></script>
 		<section class="center">
-			
-				<a href="/destination/<%= article._id %>"><div class="container article-world <%= article.class %>" id="<%= article._id %>">
+				  <div class="container article-world <%= article.class %>" id="<%= article._id %>">
 				  <h2 class="article-title"><%= article.title %></h2>
 				  <img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
-				  <p class="description"><%= article.description.substring(0,100) %></p>
+				  <p class="description"><%= article.description %></p>
 				  <button id="like-button" onclick="like('<%= article._id %>')"><i class="fa fa-thumbs-up"></i> Like</button>
 				  <button id="dislike-button" onclick="dislike('<%= article._id %>')"><i class="fa fa-thumbs-down"></i> Dislike</button>
 				  <div>
 					<span id="like-count-<%= article._id %>"><%= article.likes %></span> likes,
 					<span id="dislike-count-<%= article._id %>"><%= article.dislikes %></span> dislikes
 				  </div>
-				</div></a>
-			  
+				</div>
 			  
 		</section>
-		
-		
+	
 	</main>
 	<%- include('../partials/chat') %>
 <footer>
 	<%- include('../partials/_footer') %>
 </footer>
-	<script src="js/jqueryScript.js"></script>
-	<script src="js/likeDislike.js"></script>
-	<script type="module" src="js/music.js"></script>
+	<script src="/js/jqueryScript.js"></script>
+	<script src="/js/likeDislike.js"></script>
+	<script type="module" src="/js/music.js"></script>
 	<script src="dist/bundle.js" type="module"></script>
 </body>
 </html>
