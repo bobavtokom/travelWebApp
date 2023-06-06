@@ -1,0 +1,42 @@
+<!-- display.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Display</title>
+  <style>
+    .data-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .data-item {
+      width: 300px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+
+    .data-image {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    .data-title {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Data Display</h1>
+  <div class="data-container">
+    <% data.forEach(function(item) { %>
+      <div class="data-item">
+        <img src="<%= item.imageUrl %>" class="data-image" alt="Image">
+        <p class="data-title"><%= item.title %></p>
+      </div>
+    <% }); %>
+  </div>
+</body>
+</html>
