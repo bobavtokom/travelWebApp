@@ -80,8 +80,7 @@ app.get('/home', async (req, res) => {
 
  app.get("/topLiked/:n", async (req, res) => {
   const topN = req.params.n;
-  console.log(topN);
-  DestinationModel.find().sort({likes: -1}).limit(n)
+  DestinationModel.find().sort({likes: -1}).limit(topN)
   .then((data) => {
     res.status(200).send(data);
   })

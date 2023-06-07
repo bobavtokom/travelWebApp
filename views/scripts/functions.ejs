@@ -1,13 +1,15 @@
 
 <% 
-GetTopLikedDestination = function(n) {
-  const url = `/topLiked/${n}`;
+GetTopLikedDestination = function(n,el) {
+  const url = `http://localhost:8080/topLiked/${n}`;
   fetch(url, {
     method: 'GET',
   })
   .then(res => {
-    if(res.ok) {
-      return res;
+    if(res.ok) { 
+        console.log(el);
+        console.log(document.querySelector(`#{el}`));
+        return res;
     } else {
       console.error('functions.ejs: else: Error getting top liked destination', res.status);
     }
@@ -15,5 +17,9 @@ GetTopLikedDestination = function(n) {
   .catch(err => {
     console.error('functions.ejs: catch: Error getting top liked destination', err);
   });
+}
+
+PrintSomething = function(text) {
+  console.log(text);
 }
 %>

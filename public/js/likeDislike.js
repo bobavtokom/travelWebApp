@@ -1,4 +1,16 @@
 
+const GetTopLikedArticle = n => {
+  fetch(`/topLiked/${n}`, {
+    method: 'GET',
+  })
+  .then(res => {
+      return res.json();
+  })
+  .catch(err => {
+    console.error('Error geting top liked article:', err);
+  });
+}
+
 const like = (articleId) => {
     // Send AJAX POST request to the like action route
     fetch(`/like/${articleId}`, {
