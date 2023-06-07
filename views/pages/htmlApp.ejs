@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+	<script src="js/likeDislike.js"></script>
 
 <head>
 	<%- include('../partials/_head') %>
@@ -14,11 +15,16 @@
 		
 		<section class="left">
 			<div id="top-rated">
-				<!-- <% data.forEach(article => { %>
+				<% let articles=data %>
+				<% let topLiked = articles.sort((a, b) => b.likes - a.likes); %>
+				<% topLiked = topLiked.slice(0,3); %>
+				<% topLiked.forEach(article => { %>
 					<div class="container article-world <%= article.class %>" id="<%= article._id %>">
-					  <h2 class="article-title"><%= article.title %></h2>
-					  <img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
-					  <p class="description"><%= article.description.substring(0,100) %></p>
+						<a href="/destination/<%= article._id %>">
+							<h2 class="article-title"><%= article.title %></h2>
+							<img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
+							<p class="description"><%= article.description.substring(0,100) %></p>
+						</a>
 					  <button id="like-button" onclick="like('<%= article._id %>')"><i class="fa fa-thumbs-up"></i> Like</button>
 					  <button id="dislike-button" onclick="dislike('<%= article._id %>')"><i class="fa fa-thumbs-down"></i> Dislike</button>
 					  <div>
@@ -26,7 +32,8 @@
 						<span id="dislike-count-<%= article._id %>"><%= article.dislikes %></span> dislikes
 					  </div>
 					</div>
-				  <% }) %> -->
+				  <% }) %>
+
 			</div>
 		</section>
 		
@@ -76,7 +83,6 @@
 </footer>
     <script src="js/script.js"></script>
 	<script src="js/jqueryScript.js"></script>
-	<script src="js/likeDislike.js"></script>
 	<script type="module" src="js/music.js"></script>
 	<script src="dist/bundle.js" type="module"></script>
 </body>
