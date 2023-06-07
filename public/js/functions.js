@@ -1,23 +1,29 @@
 // function InitSidebar() {
-    $('.menu li:has(ul)').click(function (e) {
-        e.preventDefault();
+//     $('#choose-destination').click(function (e) {
+//         e.preventDefault();
+        
+//         if ($(this).hasClass('activado')) {
+//             $(this).removeClass('activado');
+//             $(this).children('ul').slideUp();
+//         } else {
 
-        if ($(this).hasClass('activado')) {
-            $(this).removeClass('activado');
-            $(this).children('ul').slideUp();
-        } else {
-            $('.menu li ul').slideUp();
-            $('.menu li').removeClass('activado');
-            $(this).addClass('activado');
-            $(this).children('ul').slideDown();
-        }
+//             $(this).addClass('activado');
+//             $(this).children('ul').slideDown();
+//         }
 
-        $('.menu li ul li a').click(function () {
-            window.location.href = $(this).attr('href');
-        })
-    });
+//         $('.menu li ul li a').click(function () {
+//             window.location.href = $(this).attr('href');
+//         })
+//     });
 // }
 
+// InitSidebar();
+
+function toggleSideMenu() {
+    const menuItems = document.querySelector("#choose-destination>ul");
+    menuItems.classList.toggle("active-DropDownmenu");
+
+}
 function ActivateNavbarLink() {
     var url = window.location.pathname;
     var filename = url.substring(url.lastIndexOf('/') + 1);

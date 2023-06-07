@@ -10,7 +10,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 main().catch(err => console.log(err));
@@ -65,6 +65,7 @@ app.get("/contact", function(req,res){
 app.get('/create', function(req, res) {
   res.render("pages/create");
 });
+
 app.post('/create', function(req, res) {
   const {title, description, imageText, imageUrl} = req.body;
   const newDestination = new DestinationModel
@@ -79,6 +80,8 @@ app.post('/create', function(req, res) {
     res.redirect('/create');
   });
 });
+
+
 app.get('/display', (req, res) => {
   DestinationModel.find()
     .then((data) => {
