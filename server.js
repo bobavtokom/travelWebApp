@@ -68,28 +68,23 @@ app.get('/create', function(req, res) {
 });
 
 app.post('/create', function(req, res) {
-  // console.log('created');
-  // const {title, description, imageText, imageUrl} = req.body;
-  // const newDestination = new DestinationModel
-  // ({ title, description, imageText, imageUrl});
-  // newDestination.save()
-  // .then(() => {
-  //   console.log('Data saved');
-  //   res.redirect('/display');
-  // })
-  // .catch((err) => {
-  //   console.error('Error saving data', err);
-  //   res.redirect('/create');
-  // });
+  console.log('created');
+  const { title, description, imageText, imageUrl, likes, dislikes, klass } = req.body;
+  const newDestination = new DestinationModel
+  ({ title, description, imageText, imageUrl, likes, dislikes, klass});
+  newDestination.save()
+  .then(() => {
+    console.log('Data saved');
+    res.redirect('/home');
+  })
+  .catch((err) => {
+    console.error('Error saving data', err);
+    res.redirect('/create');
+  });
 });
 
 
-app.get('/display', (req, res) => {
-  DestinationModel.find()
-    .then((data) => {
-      res.render('pages/display',{data})
-    }
-    )});
+
 
 app.get('/home', async (req, res) => {
     DestinationModel.find()
@@ -102,6 +97,19 @@ app.get('/home', async (req, res) => {
             return res.status(500).send('Internal Server Error');
         }
     });
+  });
+  app.delete('/article/:id', (req, res) => {
+    const articleId = req.params.id;
+  
+    DestinationModel.findByIdAndRemove(articleId)
+      .then(() => {
+        res.status(204).send();
+        res.redirect('/home');
+      })
+      .catch((error) => {
+        console.error('Error deleting resource', error);
+        res.status(500).json({ error: 'An error occurred while deleting the resource' });
+      });
   });
  // Add these routes after the '/home' route
 

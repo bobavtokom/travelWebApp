@@ -19,7 +19,7 @@
 				<% let topLiked = articles.sort((a, b) => b.likes - a.likes); %>
 				<% topLiked = topLiked.slice(0,3); %>
 				<% topLiked.forEach(article => { %>
-					<div class="container article-world <%= article.class %>" id="<%= article._id %>">
+					<div class="container article-world <%= article.klass %>" id="<%= article._id %>">
 						<a href="/destination/<%= article._id %>">
 							<h2 class="article-title"><%= article.title %></h2>
 							<img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
@@ -39,7 +39,7 @@
 		
 		<section class="center">
 			<% data.forEach(article => { %>
-				<div class="container article-world <%= article.class %>" id="<%= article._id %>">
+				<div class="container article-world <%= article.klass %>" id="<%= article._id %>">
 					<a href="/destination/<%= article._id %>">
 						<h2 class="article-title"><%= article.title %></h2>
 						<img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
@@ -51,6 +51,7 @@
 					<span id="like-count-<%= article._id %>"><%= article.likes %></span> likes,
 					<span id="dislike-count-<%= article._id %>"><%= article.dislikes %></span> dislikes
 				  </div>
+				  <button onclick="deleteResource('<%= article._id %>')">Delete</button>
 				</div>
 			  <% }) %>
 			  

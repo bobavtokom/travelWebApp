@@ -26,6 +26,25 @@ const UpdateDislikeNumber = id => {
 	});
 	ReloadTop3Destination();
 }
+function deleteResource(articleId, ) {
+	console.log('hi');
+  fetch(`/article/${articleId}`, {
+    method: 'DELETE',
+  })
+    .then((response) => {
+      if (response.ok) {
+        
+        const resourceDiv = document.getElementById(articleId);
+        resourceDiv.remove();
+      } else {
+        console.error('Error deleting resource');
+      }
+    })
+    .catch((error) => {
+      console.error('Error deleting resource', error);
+    });
+}
+
 //  var likeButton = querySelectorAll("fa fa-thumbs-up");
 
 
