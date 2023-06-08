@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const mySchema = new Schema({
   title: String,
-  class: String,
+  class: { type: String, default: "" },
   imageUrl: String,
-  imageText: String,
+  imageText: { type: String, default: "" },
   description: String,
-  likes: Number,
-  dislikes: Number
+  likes: { type: Number, default: 0 },
+  dislikes: { type: Number, default: 0 }
 });
 const DestinationModel = mongoose.model('DestinationModel', mySchema);
 const worldTravel = new DestinationModel({
