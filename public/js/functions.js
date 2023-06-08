@@ -20,10 +20,15 @@
 // InitSidebar();
 
 function toggleSideMenu() {
-    const menuItems = document.querySelector("#choose-destination>ul");
-    menuItems.classList.toggle("active-DropDownmenu");
-
+    console.log('hi');
+    const ul = document.querySelectorAll('.drop li');
+ul.forEach(function (l) {
+  l.classList.toggle('dropdown');
+})
 }
+
+
+
 function ActivateNavbarLink() {
     var url = window.location.pathname;
     var filename = url.substring(url.lastIndexOf('/') + 1);

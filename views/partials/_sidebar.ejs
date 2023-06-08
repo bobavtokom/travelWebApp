@@ -6,11 +6,11 @@
   <i class="fa fa-times" aria-hidden="true" id="x-close" onclick="closeLeftSidebar()"></i>
   <div class="contenedor-menu">
 
-    <ul class="menu">
-      <li id="choose-destination" onclick="toggleSideMenu()">Choose destination<i class="fa fa-chevron-down"></i>
-        <ul>
+    <ul class="menu" onclick="toggleSideMenu()">
+      <li id='drop-down-menu'>Choose destination<i class="fa fa-chevron-down"></i>
+        <ul class="drop">
           <li><a href="/home">World destinations</a></li>
-          <li><a onclick="topRated()" href="/home?filter=macedonia">Macedonia destinations</a></li>
+          <li id="macedonia-category"><a href="/home?filter=macedonia">Macedonia destinations</a></li>
         </ul>
       </li>
     </ul>
