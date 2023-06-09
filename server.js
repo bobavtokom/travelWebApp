@@ -64,6 +64,7 @@ app.get("/about", function(req,res){
 app.get("/contact", function(req,res){
     res.render('pages/contact');
 });
+
 app.get('/create', function(req, res) {
   res.render("pages/create");
 });
@@ -83,13 +84,90 @@ app.post('/create', function(req, res) {
   });
 });
 
+app.post('/delete-article/:id', function(req, res) {
+  const articleId = req.params.id;
+  DestinationModel.findByIdAndDelete({_id: articleId})
+  .then(() => {
+    res.status(200).send(articleId);
+  })
+  .catch((error) => {
+    console.log(error);
+    res.status(404).send();
+  });
+});
+
+app.get('/save-article/:id', function(req,res) {
+  const articleId = req.params.id;
+  DestinationModel.findById({_id: articleId})
+  .then((data) => {
+    res.render("pages/save-article", {article: data});
+  });
+});
+
+app.post('/save-article', function(req, res) {
+  const {_id, title, description, imageText, imageUrl, likes, dislikes} = req.body;
+  let articleId = 0;
+  if (_id === "0") {
+    articleId = 0;
+  } else {
+    articleId = _id;
+  }
+  const likesInt = parseInt(likes);
+  const dislikesInt = parseInt(dislikes);
+  DestinationModel.updateOne( 
+    { _id: articleId }, 
+    { $set: 
+        {
+          title: title,
+          description: description,
+          imageText: imageText,
+          imageUrl: imageUrl,
+          likes: likesInt,
+          dislikes: dislikesInt
+        }
+    })
+  .then(() =>{
+    res.redirect('/display');
+  })
+  .catch((error) => {
+    const newDestination = new DestinationModel
+    ({ title, description, imageText, imageUrl});
+    newDestination.save()
+    .then(() => {
+      res.redirect('/display');
+    })
+    .catch((err) => {
+      console.error('Error saving data', err);
+    });
+  });
+
+  // const articleDB = DestinationModel.count({_id: _id});
+  // console.log(articleDB);
+  // if (articleDB) {
+  //   res.redirect('/display');
+  // } else {
+  //   res.redirect('/');
+  // }
+
+  // const newDestination = new DestinationModel
+  // ({ title, description, imageText, imageUrl});
+  // newDestination.save()
+  // .then(() => {
+  //   console.log('Data saved');
+  //   res.redirect('/display');
+  // })
+  // .catch((err) => {
+  //   console.error('Error saving data', err);
+  //   res.redirect('/create');
+  // });
+});
 
 app.get('/display', (req, res) => {
   DestinationModel.find()
-    .then((data) => {
-      res.render('pages/display',{data})
-    }
-    )});
+  .then((data) => {
+    res.render('pages/display',{data})
+  }
+)});
 
 app.get('/home', async (req, res) => {
     DestinationModel.find()
@@ -97,27 +175,27 @@ app.get('/home', async (req, res) => {
       res.render('pages/htmlApp', { data });
     })
     .catch((err) => {
-        if (err) {
-            console.error('Error fetching data from MongoDB:', err);
-            return res.status(500).send('Internal Server Error');
-        }
-    });
+      if (err) {
+          console.error('Error fetching data from MongoDB:', err);
+          return res.status(500).send('Internal Server Error');
+      }
   });
+});
  // Add these routes after the '/home' route
 
- app.get("/topLiked/:n", async (req, res) => {
-  const topN = req.params.n;
-  DestinationModel.find().sort({likes: -1}).limit(topN)
-  .then((data) => {
-    res.status(200).send(data);
-  })
-  .catch((err) => {
-    if (err) {
-      console.error('Error getting top liked destination.', err);
-      res.status(500).send('Internal Server Error');
-    }
-  })
- });
+app.get("/topLiked/:n", async (req, res) => {
+const topN = req.params.n;
+DestinationModel.find().sort({likes: -1}).limit(topN)
+.then((data) => {
+  res.status(200).send(data);
+})
+.catch((err) => {
+  if (err) {
+    console.error('Error getting top liked destination.', err);
+    res.status(500).send('Internal Server Error');
+  }
+})
+});
 
 // Like action route
 app.post('/like/:id', async (req, res) => {
