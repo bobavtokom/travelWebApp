@@ -5,7 +5,6 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const ejs = require("ejs");
-const bodyParser = require('body-parser');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
@@ -70,13 +69,14 @@ app.get('/create', function(req, res) {
 });
 
 app.post('/create', function(req, res) {
-  const {title, description, imageText, imageUrl} = req.body;
+  console.log('created');
+  const { title, description, imageText, imageUrl, likes, dislikes, klass } = req.body;
   const newDestination = new DestinationModel
-  ({ title, description, imageText, imageUrl});
+  ({ title, description, imageText, imageUrl, likes, dislikes, klass});
   newDestination.save()
   .then(() => {
     console.log('Data saved');
-    res.redirect('/display');
+    res.redirect('/home');
   })
   .catch((err) => {
     console.error('Error saving data', err);
