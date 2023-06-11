@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const DestinationModel = require('./models/DestinationModel');
+const DestinationModel = require('./models/destinationModel');
 const ChatMessage = require('./models/LiveChatModel');
 
 
