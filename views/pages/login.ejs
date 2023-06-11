@@ -2,44 +2,44 @@
 <html>
 
 <head>
-	<%- include('../partials/_head') %>
+  <%- include('../partials/_head') %>
 </head>
 
 <body>
-	<header>
-		<%- include("../partials/_header") %>
-	</header>
-	
-		<span class="js-include-html" data-filename="partial/header.html" data-function="ActivateNavbarLink()"></span>
-		<%- include('../partials/_sidebar') %>
-		<main id="ham-main">
-			<!-- Left Side bar -->
-			<span class="js-include-html" data-filename="partial/_sidebar.htm" data-function="InitSidebar()"></span>
-  <section class="center">
-    <h3>Please login...</h3>
-    <br><br>
-    <div>
-      <form id='form' action="/login" method="POST">
-          <label for="username">username</label>
-          <input type="text" id="username" name="username" required><br><br>
+  <header>
+    <%- include("../partials/_header") %>
+  </header>
 
-          <label for="password">password:</label>
-          <input type="text" id="password" name="password" required><br><br>
-          
-          <input type="submit" value="Login"/> 
-        </form>
-    </div>
-  </section>
-  </main>
-	<%- include('../partials/chat') %>
-		<footer>
-			<%- include('../partials/_footer') %>
-		</footer>
-	<script src="/js/likeDislike.js"></script>
-	<script src="/dist/bundle.js" type="module"></script>
-	<script src="js/script.js"></script>
-	<script src="js/jqueryScript.js"></script>
-	<script src="js/music.js"></script>
+  <span class="js-include-html" data-filename="partial/header.html" data-function="ActivateNavbarLink()"></span>
+  <%- include('../partials/_sidebar') %>
+    <main id="ham-main">
+      <!-- Left Side bar -->
+      <span class="js-include-html" data-filename="partial/_sidebar.htm" data-function="InitSidebar()"></span>
+      <section class="center">
+        <h3>Please login...</h3>
+        <br><br>
+        <div>
+          <form id='form' action="/login" method="POST">
+            <label for="username">username</label>
+            <input type="text" id="username" name="username" required><br><br>
+
+            <label for="password">password:</label>
+            <input type="text" id="password" name="password" required><br><br>
+
+            <input type="submit" value="Login" />
+          </form>
+        </div>
+      </section>
+    </main>
+    <%- include('../partials/chat') %>
+      <footer>
+        <%- include('../partials/_footer') %>
+      </footer>
+      <script src="/js/likeDislike.js"></script>
+      <script src="/dist/bundle.js" type="module"></script>
+      <script src="js/script.js"></script>
+      <script src="js/jqueryScript.js"></script>
+      <script src="js/music.js"></script>
 </body>
 
 </html>
