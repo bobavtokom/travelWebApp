@@ -13,15 +13,14 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
-
-// app.use(express.urlencoded({ extended: true }));
+const authMiddleware = require('./middleware/authenticationMiddleware');
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Use the router as middleware
 app.use('/', routes);
+app.use(authMiddleware);
 
 main().catch(err => console.log(err));
 

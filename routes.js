@@ -3,7 +3,10 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const DestinationModel = require('./models/destinationModel');
 const ChatMessage = require('./models/LiveChatModel');
-
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const authMiddleware = require('./middleware/authenticationMiddleware');
 
 router.get("/", function(req, res){
     res.render("pages/index");
@@ -23,7 +26,11 @@ router.get("/contact", function(req,res){
 });
 
 router.get('/create', function(req, res) {
-  res.render("pages/create");
+  if(req.user){
+    res.render("pages/create");
+  }else{
+    res.render('pages/login');
+  }
 });
 
 router.post('/create', function(req, res) {
@@ -183,29 +190,6 @@ router.get('/messages', async (req, res) => {
   } catch (error) {
     console.error('Error retrieving messages:', error);
     res.status(500).json({ error: 'Failed to retrieve messages' });
-  }
-});
-router.get('/destinations/:id/edits', async (req, res) => {
-  try {
-    const destination = await DestinationModel.findById(req.params.id);
-    res.render('pages/update', { destination });
-  } catch (error) {
-    res.status(500).send('Error retrieving item');
-  }
-});
-router.post('/destinations/:id', async (req, res) => {
-  console.log('hi');
-  try {
-    const destination = await DestinationModel.findById(req.params.id);
-    destination.title = req.body.title;
-    destination.description= req.body.description;
-    destination.imageText = req.body.imageText;
-    destination.imageUrl = req.body.imageUrl;
-    await destination.save();
-    res.redirect('/home');
-  } catch (error) {
-    res.status(500).send('Error updating item');
-    console.log(error);
   }
 });
 
