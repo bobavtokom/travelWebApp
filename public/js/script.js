@@ -1,5 +1,4 @@
 
-
 const ReloadTop3Destination = () => {
 	const spanElement = document.querySelector("#top-rated>span");
 	if (spanElement) {
@@ -27,6 +26,25 @@ const UpdateDislikeNumber = id => {
 	});
 	ReloadTop3Destination();
 }
+function deleteResource(articleId, ) {
+	console.log('hi');
+  fetch(`/article/${articleId}`, {
+    method: 'DELETE',
+  })
+    .then((response) => {
+      if (response.ok) {
+        
+        const resourceDiv = document.getElementById(articleId);
+        resourceDiv.remove();
+      } else {
+        console.error('Error deleting resource');
+      }
+    })
+    .catch((error) => {
+      console.error('Error deleting resource', error);
+    });
+}
+
 //  var likeButton = querySelectorAll("fa fa-thumbs-up");
 
 
@@ -73,6 +91,7 @@ const SetDislikesByArticleId = (id, value) => {
 	const storageKey = 'dislikes-' + id;
 	localStorage.setItem(storageKey, value);
 }
+
 function toggleHamburger() {
 	const menu = document.querySelector('.hamburger-menu');
 	menu.classList.toggle("act");
@@ -305,4 +324,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	IncludeFromHtml();
 	IncludeFromJSON();
 	GetTop3LikedArticles();
+
+	// document.querySelectorAll("#like-button-mongo").forEach(item => item.addEventListener("click", LikeButtonMongoClick));
 });

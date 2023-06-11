@@ -27,7 +27,7 @@ body {
     border: 2px solid rgb(80, 232, 235);
     border-radius: 2%;
     position: fixed;
-    left: 2%;
+    /* left: 10px; */
     bottom: 5%;
   }
   
@@ -35,8 +35,8 @@ body {
   #live-chat.show-chat {
     top: 10%;
     visibility: visible;
-    bottom: 25%;
-    left: 10%
+    bottom: 100px;
+    right: 10px;
   }
   #chat-header {
     background-color: rgb(111, 240, 240);

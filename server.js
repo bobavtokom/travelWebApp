@@ -1,15 +1,26 @@
+const User = require('./models/userModel');
 const mongoose = require('mongoose');
-const DestinationModel = require('./models/DestinationModel');
+const DestinationModel = require('./models/destinationModel');
 const ChatMessage = require('./models/LiveChatModel');
 const express = require('express');
 const app = express();
 const path = require('path');
-const bodyParser = require('body-parser');
+const routes = require('./routes');
 const ejs = require("ejs");
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcrypt');
+
+// Use the router as middleware
+app.use('/', routes);
+
+app.use(express.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 main().catch(err => console.log(err));
@@ -18,6 +29,111 @@ async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/firstdb');
   console.log("db connected");
 };
+passport.use(new LocalStrategy(
+  async (username, password, done) => {
+    try {
+      const user = await User.findOne({ username: username });
+      
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username' });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      
+      if (isMatch) {
+        return done(null, user);
+      } else {
+        return done(null, false, { message: 'Incorrect password' });
+      }
+    } catch (err) {
+      return done(err);
+    }
+  }
+));
+// Serialize and deserialize user instances to and from the session
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
+});
+
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('/login', (req, res) => {
+  res.render('pages/login');
+});
+
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/dashboard',
+  failureRedirect: '/login'
+}));
+
+app.get('/dashboard', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.send('Dashboard page');
+  } else {
+    res.redirect('/login');
+  }
+});
+
+app.get('/logout', (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      console.log(err);
+      return res.redirect('/dashboard');
+    }
+    res.redirect('/');
+  });
+});
+
+app.get('/signup', (req, res) => {
+  res.render('pages/signup');
+});
+
+app.post('/signup', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ username: username });
+    
+    if (existingUser) {
+      return res.redirect('/signup');
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      username: username,
+      password: hashedPassword
+    });
+
+    await newUser.save();
+    req.login(newUser, (err) => {
+      if (err) {
+        console.log(err);
+        return res.redirect('/signup');
+      }
+
+      return res.redirect('/dashboard');
+    });
+  } catch (err) {
+    console.log(err);
+    return res.redirect('/signup');
+  }
+});
+
 
 io.on('connection', (socket) => {
   console.log('A user connected.');
@@ -45,85 +161,5 @@ http.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 
-app.get("/", function(req, res){
-    res.render("pages/index");
-});
-app.get("/destination/:id", function(req, res){
-  const showId = req.params.id;
-  DestinationModel.findById({_id: showId})
-  .then((data) => {
-    res.render('pages/show', {article: data});
-  })
-})
-app.get("/about", function(req,res){
-    res.render('pages/about');
-});
-app.get("/contact", function(req,res){
-    res.render('pages/contact');
-});
 
-app.get('/home', async (req, res) => {
-    DestinationModel.find()
-    .then((data) => {
-      res.render('pages/htmlApp', { data });
-    })
-    .catch((err) => {
-        if (err) {
-            console.error('Error fetching data from MongoDB:', err);
-            return res.status(500).send('Internal Server Error');
-        }
-    });
-  });
- // Add these routes after the '/home' route
-
-// Like action route
-app.post('/like/:id', async (req, res) => {
-  try {
-    const articleId = req.params.id;
-    const article = await DestinationModel.findById(articleId);
-
-    if (!article) {
-      return res.status(404).send('Article not found');
-    }
-
-    article.likes += 1;
-    await article.save();
-
-    res.sendStatus(200);
-  } catch (error) {
-    console.error('Error updating like count:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-// Dislike action route
-app.post('/dislike/:id', async (req, res) => {
-  try {
-    const articleId = req.params.id;
-    const article = await DestinationModel.findById(articleId);
-
-    if (!article) {
-      return res.status(404).send('Article not found');
-    }
-
-    article.dislikes += 1;
-    await article.save();
-
-    res.sendStatus(200);
-  } catch (error) {
-    console.error('Error updating dislike count:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-app.get('/messages', async (req, res) => {
-  try {
-    // Retrieve all chat messages from the database
-    const messages = await ChatMessage.find().sort({ timestamp: 1 });
-    res.json(messages);
-  } catch (error) {
-    console.error('Error retrieving messages:', error);
-    res.status(500).json({ error: 'Failed to retrieve messages' });
-  }
-});
 
