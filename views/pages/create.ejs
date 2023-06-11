@@ -19,29 +19,28 @@
 		<h3>Insert information for the new article/destionation you want to insert on website:</h3>
 		<br><br>
 		<div>
-		<form id='form' action="/create" method="POST">
-            <label for="imageUrl">Image URL:</label>
-            <input type="text" id="imageUrl" name="imageUrl" required><br><br>
-
-            <label for="klass">class: (macedonia or " ")</label>
-			<select id="klass" name="klass" required>
-				<option value="">Select class</option>
-				<option value="">world</option>
-				<option value="macedonia">macedonia</option>
-			</select>
-
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required><br><br>
-
-            <label for="description">description</label>
-            <textarea id="description" name="description" required></textarea><br><br>
-        
-            <input type="submit" value="Send Message"/> 
-          </form>
+			<form id='form' action="/create" method="POST">
+				<label for="imageUrl">Image URL:</label>
+				<input type="text" id="imageUrl" name="imageUrl" required><br><br>
+			
+				<label for="klass">Class: (Macedonia or World)</label>
+				<select id="klass" name="klass" required>
+					<option value="">Select class</option>
+					<option value="world">World</option>
+					<option value="macedonia">Macedonia</option>
+				</select>
+			
+				<label for="title">Title:</label>
+				<input type="text" id="title" name="title" required><br><br>
+			
+				<label for="description">Description:</label>
+				<textarea id="description" name="description" required></textarea><br><br>
+			
+				<input type="submit" value="Create"/> 
+			</form>
 		</div>
 		</section>
 	</main>
-	<%- include('../partials/chat') %>
 		<footer>
 			<%- include('../partials/_footer') %>
 		</footer>

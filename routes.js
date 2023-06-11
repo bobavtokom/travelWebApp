@@ -185,5 +185,28 @@ router.get('/messages', async (req, res) => {
     res.status(500).json({ error: 'Failed to retrieve messages' });
   }
 });
+router.get('/destinations/:id/edits', async (req, res) => {
+  try {
+    const destination = await DestinationModel.findById(req.params.id);
+    res.render('pages/update', { destination });
+  } catch (error) {
+    res.status(500).send('Error retrieving item');
+  }
+});
+router.post('/destinations/:id', async (req, res) => {
+  console.log('hi');
+  try {
+    const destination = await DestinationModel.findById(req.params.id);
+    destination.title = req.body.title;
+    destination.description= req.body.description;
+    destination.imageText = req.body.imageText;
+    destination.imageUrl = req.body.imageUrl;
+    await destination.save();
+    res.redirect('/home');
+  } catch (error) {
+    res.status(500).send('Error updating item');
+    console.log(error);
+  }
+});
 
 module.exports = router;
