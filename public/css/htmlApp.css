@@ -528,6 +528,20 @@ textarea {
 	resize: vertical;
 }
 
+#form input[type=text],
+input[type=email],
+select,
+textarea {
+	width: 100%;
+	padding: 12px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	margin-top: 6px;
+	margin-bottom: 16px;
+	resize: vertical;
+}
+
 input[type=submit] {
 	border: 1px solid rgb(49, 169, 209);
 	background-color: #31c2c7;

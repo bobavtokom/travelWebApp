@@ -70,22 +70,31 @@
 	</nav>
 </header>
 	<main id="ham-main">
-        
+     <section class="center">
+		<h3>Insert information for the new article/destionation you want to insert on website:</h3>
+		<br><br>
+		<div>
 		<form id='form' action="/create" method="POST">
             <label for="imageUrl">Image URL:</label>
             <input type="text" id="imageUrl" name="imageUrl" required><br><br>
 
-            <label for="klass">class:</label>
-            <input type="text" id="klass" name="klass" required><br><br>
-            
+            <label for="klass">class: (macedonia or " ")</label>
+			<select id="klass" name="klass" required>
+				<option value="">Select class</option>
+				<option value="">world</option>
+				<option value="macedonia">macedonia</option>
+			</select>
+
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" required><br><br>
 
             <label for="description">description</label>
-            <input type="text" id="description" name="description" required><br><br>
+            <textarea id="description" name="description" required></textarea><br><br>
         
-            <input type="submit" class="btn btn-block btn-danger" value="Send Message"/> 
+            <input type="submit" value="Send Message"/> 
           </form>
+		</div>
+		</section>
 				 
 	</main>
 
