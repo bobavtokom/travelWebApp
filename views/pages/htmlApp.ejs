@@ -23,27 +23,22 @@
 						<a href="/destination/<%= article._id %>">
 							<h2 class="article-title"><%= article.title %></h2>
 							<img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
-							<p class="description"><%= article.description.substring(0,100) %></p>
 						</a>
-					  <button id="like-button" onclick="like('<%= article._id %>')"><i class="fa fa-thumbs-up"></i> Like</button>
-					  <button id="dislike-button" onclick="dislike('<%= article._id %>')"><i class="fa fa-thumbs-down"></i> Dislike</button>
 					  <div>
 						<span id="like-count-<%= article._id %>"><%= article.likes %></span> likes,
 						<span id="dislike-count-<%= article._id %>"><%= article.dislikes %></span> dislikes
 					  </div>
 					</div>
 				  <% }) %>
-
 			</div>
 		</section>
-		
 		<section class="center">
 			<% data.forEach(article => { %>
 				<div class="container article-world <%= article.klass %>" id="<%= article._id %>">
 					<a href="/destination/<%= article._id %>">
 						<h2 class="article-title"><%= article.title %></h2>
 						<img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
-						<p class="description"><%= article.description.substring(0,100) %></p>
+						<p class="description"><%= article.description.substring(0,100) %> ... more</p>
 					</a>
 				  <button id="like-button" onclick="like('<%= article._id %>')"><i class="fa fa-thumbs-up"></i> Like</button>
 				  <button id="dislike-button" onclick="dislike('<%= article._id %>')"><i class="fa fa-thumbs-down"></i> Dislike</button>
@@ -51,7 +46,6 @@
 					<span id="like-count-<%= article._id %>"><%= article.likes %></span> likes,
 					<span id="dislike-count-<%= article._id %>"><%= article.dislikes %></span> dislikes
 				  </div>
-				  <button onclick="deleteResource('<%= article._id %>')">Delete</button>
 				</div>
 			  <% }) %>
 			  
