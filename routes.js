@@ -132,17 +132,17 @@ router.get('/home', async (req, res) => {
  // Add these routes after the '/home' route
 
 router.get("/topLiked/:n", async (req, res) => {
-const topN = req.params.n;
-DestinationModel.find().sort({likes: -1}).limit(topN)
-.then((data) => {
-  res.status(200).send(data);
-})
-.catch((err) => {
-  if (err) {
-    console.error('Error getting top liked destination.', err);
-    res.status(500).send('Internal Server Error');
-  }
-})
+  const topN = req.params.n;
+  DestinationModel.find().sort({likes: -1}).limit(topN)
+  .then((data) => {
+    res.status(200).send(data);
+  })
+  .catch((err) => {
+    if (err) {
+      console.error('Error getting top liked destination.', err);
+      res.status(500).send('Internal Server Error');
+    }
+  })
 });
 
 // Like action route

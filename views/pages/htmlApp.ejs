@@ -12,23 +12,7 @@
 		<%- include('../partials/_sidebar') %>
 		
 		<section class="left">
-			<div id="top-rated">
-				<% let articles=data %>
-				<% let topLiked = articles.sort((a, b) => b.likes - a.likes); %>
-				<% topLiked = topLiked.slice(0,3); %>
-				<% topLiked.forEach(article => { %>
-					<div class="container article-world <%= article.klass %>" id="<%= article._id %>">
-						<a href="/destination/<%= article._id %>">
-							<h2 class="article-title"><%= article.title %></h2>
-							<img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
-						</a>
-					  <div>
-						<span id="like-count-<%= article._id %>"><%= article.likes %></span> likes,
-						<span id="dislike-count-<%= article._id %>"><%= article.dislikes %></span> dislikes
-					  </div>
-					</div>
-				  <% }) %>
-			</div>
+			<div id="top-rated" data-top-number="3"></div>
 		</section>
 		<section class="center">
 			<% data.forEach(article => { %>
@@ -76,5 +60,6 @@
 	<%- include('../partials/_footer') %>
 </footer>
 	<script src="dist/bundle.js" type="module"></script>
+	<script> GetTopLikedArticle("top-rated"); </script>
 </body>
 </html>
