@@ -1,45 +1,67 @@
 <!-- display.ejs -->
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Data Display</title>
-  <style>
-    .data-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-evenly;
-      flex-direction: row;
-    }
+  <%- include('../partials/_head') %>
+    <title>Edit Articles</title>
+    <link rel="stylesheet" type="text/css" href="/css/save-article.css">
+    <style>
+      .data-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        flex-direction: row;
+      }
 
-    .data-item {
-      width: 300px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      padding: 10px;
-    }
+      .data-item {
+        width: 300px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
 
-    .data-image {
-      max-width: 100%;
-      height: auto;
-      margin-bottom: 10px;
-    }
+      .data-image {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+      }
 
-    .data-title {
-      font-weight: bold;
-    }
-  </style>
+      .data-title {
+        font-weight: bold;
+      }
+    </style>
 </head>
+<header>
+  <%- include("../partials/_header") %>
+</header>
+
 <body>
-  <a href="home">Go back to home page...</a><br>
-  <h1>Data Display</h1>
-  <div class="data-container">
-    <% data.forEach(function(item) { %>
-      <div class="data-item">
-        <img src="<%= item.imageUrl %>" class="data-image" alt="Image">
-        <p class="data-title"><%= item.title %></p>
-        <button onclick="window.location='save-article/<%= item._id %>'">Edit</button>
-      </div>
-    <% }); %>
-  </div>
+  <main class="modify-article">
+  <%- include('../partials/_sidebar') %>
+
+    <div class="col-4 text-center mb-3"><button class="form-button" onclick="window.location='home'">Home Page</button>
+    </div>
+    <div class="col-4 text-center mb-3">
+      <h1>List of Articles</h1>
+    </div>
+    <div class="col-4 text-center mb-3"><button class="form-button" onclick="window.location='save-article/0'">Add New
+        Article</button></div>
+
+    <div class="data-container">
+      <% data.forEach(function(item) { %>
+        <div class="data-item">
+          <img src="<%= item.imageUrl %>" class="data-image" alt="Image">
+          <p class="data-title">
+            <%= item.title %>
+          </p>
+          <button class="form-button" onclick="window.location='save-article/<%= item._id %>'">Edit</button>
+          <button class="form-button button-delete" data-article-id="<%= item._id %>"
+            onclick="DeleteArticle(this)">Delete</button>
+        </div>
+        <% }); %>
+    </div>
+  </main>
 </body>
+
 </html>
