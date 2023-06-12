@@ -1,17 +1,39 @@
 
-const GetTopLikedArticle = n => {
-  fetch(`/topLiked/${n}`, {
-    method: 'GET',
-  })
-  .then(res => {
-      return res.json();
-  })
-  .catch(err => {
-    console.error('Error geting top liked article:', err);
-  });
+function GetTopLikedArticle(id) {
+  const tagElement = document.querySelector(`#${id}`);
+  const n = tagElement.getAttribute("data-top-number");
+  if (n>0) {
+    fetch(`/topLiked/${n}`, {
+      method: 'GET',
+    })
+    .then(res => {
+      res.json().then((a) => {
+        let html=`<h4>Top ${n} Liked Destination`;
+        a.forEach(article => {
+          html+=`<div class="container article-world ${article.klass}" id="${article._id}">
+              <a href="/destination/${article._id}">
+                <h2 class="article-title">${article.title}</h2>
+                <img class="image" src="${article.imageUrl}" alt="${article.imageText}">
+              </a>
+              <div>
+              <span id="like-count-${article._id}">${article.likes}</span> likes,
+              <span id="dislike-count-${article._id}">${article.dislikes}</span> dislikes
+              </div>
+            </div>`;
+        });
+        tagElement.innerHTML=html;
+      });
+    })
+    .catch(err => {
+      tagElement.innerHTML=`Can't get top ${n} liked destination`;
+      console.error('func:GetTopLikedArticle: Error geting top liked articles:', err);
+    });
+  } else {
+    tagElement.innerHTML=`You must provide number of top liked destination!`
+  }
 }
 
-const like = (articleId) => {
+function like (articleId) {
     // Send AJAX POST request to the like action route
     fetch(`/like/${articleId}`, {
         method: 'POST',
@@ -19,8 +41,9 @@ const like = (articleId) => {
         .then(response => {
             if (response.ok) {
                 // Update the like count in the DOM
-                const likeCountSpan = document.getElementById(`like-count-${articleId}`);
+                const likeCountSpan = document.querySelector(`.center #like-count-${articleId}`);
                 likeCountSpan.textContent = parseInt(likeCountSpan.textContent) + 1;
+                GetTopLikedArticle("top-rated");
             } else {
                 console.error('Error updating like count:', response.status);
             }
@@ -30,7 +53,7 @@ const like = (articleId) => {
         });
 }
 
-const dislike =(articleId) => {
+function dislike(articleId) {
   // Send AJAX POST request to the dislike action route
   fetch(`/dislike/${articleId}`, {
     method: 'POST',
@@ -38,8 +61,9 @@ const dislike =(articleId) => {
     .then(response => {
       if (response.ok) {
         // Update the dislike count in the DOM
-        const dislikeCountSpan = document.getElementById(`dislike-count-${articleId}`);
+        const dislikeCountSpan = document.querySelector(`.center #dislike-count-${articleId}`);
         dislikeCountSpan.textContent = parseInt(dislikeCountSpan.textContent) + 1;
+        GetTopLikedArticle("top-rated");
       } else {
         console.error('Error updating dislike count:', response.status);
       }
@@ -49,9 +73,12 @@ const dislike =(articleId) => {
     });
 }
 
-document.querySelector("#form-save-article").addEventListener('submit', (e) => {
-  e.preventDefault();
-});
+const SaveArticleElement = document.querySelector("#form-save-article");
+if (SaveArticleElement) {
+  SaveArticleElement.addEventListener('submit', (e) => {
+      e.preventDefault();
+    });
+}
 
 function SaveArticle(element) {
   document.querySelector("#form-save-article").submit();
@@ -67,6 +94,7 @@ function NewArticle(element) {
   rootElement.querySelector("#dislikes").value="0";
   rootElement.parentElement.parentElement.querySelector("#save-article-image").src="";
   rootElement.parentElement.parentElement.querySelector("#save-article-image").alt="";
+  document.querySelector("#save-article-heading").innerHTML = "New Article";
 }
 
 function DeleteArticle(element) {

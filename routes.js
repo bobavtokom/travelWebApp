@@ -66,6 +66,9 @@ router.get('/save-article/:id', function(req,res) {
   DestinationModel.findById({_id: articleId})
   .then((data) => {
     res.render("pages/save-article", {article: data});
+  })
+  .catch(() => {
+    res.render("pages/save-article", {article: { _id: 0, title: "", description: "", imageText: "", imageUrl: "", likes: 0, dislikes: 0 }});
   });
 });
 
@@ -92,14 +95,14 @@ router.post('/save-article', function(req, res) {
         }
     })
   .then(() =>{
-    res.redirect('/home');
+    res.redirect('/display');
   })
   .catch((error) => {
     const newDestination = new DestinationModel
     ({ title, description, imageText, imageUrl});
     newDestination.save()
     .then(() => {
-      res.redirect('/home');
+      res.redirect('/display');
     })
     .catch((err) => {
       console.error('Error saving data', err);
@@ -129,17 +132,17 @@ router.get('/home', async (req, res) => {
  // Add these routes after the '/home' route
 
 router.get("/topLiked/:n", async (req, res) => {
-const topN = req.params.n;
-DestinationModel.find().sort({likes: -1}).limit(topN)
-.then((data) => {
-  res.status(200).send(data);
-})
-.catch((err) => {
-  if (err) {
-    console.error('Error getting top liked destination.', err);
-    res.status(500).send('Internal Server Error');
-  }
-})
+  const topN = req.params.n;
+  DestinationModel.find().sort({likes: -1}).limit(topN)
+  .then((data) => {
+    res.status(200).send(data);
+  })
+  .catch((err) => {
+    if (err) {
+      console.error('Error getting top liked destination.', err);
+      res.status(500).send('Internal Server Error');
+    }
+  })
 });
 
 // Like action route
