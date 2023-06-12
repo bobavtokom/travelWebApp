@@ -14,6 +14,10 @@
 	<%- include("../partials/_header") %>
 
 </header>
+	<div class="text-center">
+		<% let z = article._id == 0 ? "New " : "Edit "; %>
+		<h1 id="save-article-heading"><%= z %> Article</h1>
+	</div>
 	<main class="save-article-container">
 		<%- include('../partials/_sidebar') %>
 

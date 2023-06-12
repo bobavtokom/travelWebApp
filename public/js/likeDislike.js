@@ -94,6 +94,7 @@ function NewArticle(element) {
   rootElement.querySelector("#dislikes").value="0";
   rootElement.parentElement.parentElement.querySelector("#save-article-image").src="";
   rootElement.parentElement.parentElement.querySelector("#save-article-image").alt="";
+  document.querySelector("#save-article-heading").innerHTML = "New Article";
 }
 
 function DeleteArticle(element) {
