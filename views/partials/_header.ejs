@@ -43,10 +43,16 @@
 			<li><a href="/home">Home</a></li>
 			<li><a href="/about">About</a></li>
 			<li><a href="/contact">Contact</a></li>
-			<li><a href="/create">Create</a></li>
-			<li><a href="/display">Edit</a></li>
-			<li><a href="/signup">Sign up</a></li>
-			<li><a href="/login">Login</a></li>
+			<% if (req.isAuthenticated()){ %>
+				<li><a href="/create">Create</a></li>
+				<li><a href="/display">Edit</a></li>
+				<li><a href="/logout">Logout</a></li>
+				<p id="logged-user">Hello <%= req.user.username %></p>
+			<% } %>
+			<% if (!req.isAuthenticated()) { %>
+				<li><a href="/login">Login</a></li>
+				<li><a href="/signup">Sign up</a></li>
+			  <% } %>
 			
 			<form id="google-search" action="https://www.google.com/search" method="get" target="_blank">
 				<label for="search"></label>

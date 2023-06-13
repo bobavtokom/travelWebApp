@@ -1,13 +1,8 @@
-// middleware/authMiddleware.js
 
-const authMiddleware = (req, res, next) => {
-    if (!req.user) { 
-      return res.status(401).json({ error: 'Unauthorized' });
-      res.redirect('/login');
+  const isLoggedIn = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      return next();
     }
-    req.user = req.session.user;
-    next(); 
+    res.redirect('/login');
   };
-  
-  module.exports = authMiddleware;
-  
+  module.exports = isLoggedIn;

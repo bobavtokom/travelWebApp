@@ -6,10 +6,10 @@ const ChatMessage = require('./models/LiveChatModel');
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const authMiddleware = require('./middleware/authenticationMiddleware');
+const isLoggedIn = require('./middleware/authenticationMiddleware');
 
 router.get("/", function(req, res){
-    res.render("pages/index");
+    res.render("pages/index", { req: req });
 });
 router.get("/destination/:id", function(req, res){
   const showId = req.params.id;
@@ -19,18 +19,14 @@ router.get("/destination/:id", function(req, res){
   })
 });
 router.get("/about", function(req,res){
-    res.render('pages/about');
+    res.render('pages/about',{ req: req });
 });
 router.get("/contact", function(req,res){
-    res.render('pages/contact');
+    res.render('pages/contact',{ req: req });
 });
 
-router.get('/create', function(req, res) {
-  if(req.user){
-    res.render("pages/create");
-  }else{
-    res.render('pages/login');
-  }
+router.get('/create', isLoggedIn,(req, res) => {
+    res.render("pages/create", { req: req });
 });
 
 router.post('/create', function(req, res) {
@@ -120,7 +116,7 @@ router.get('/display', (req, res) => {
 router.get('/home', async (req, res) => {
     DestinationModel.find()
     .then((data) => {
-      res.render('pages/htmlApp', { data });
+      res.render('pages/htmlApp', { data: data, req: req });
     })
     .catch((err) => {
       if (err) {

@@ -13,14 +13,12 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
-const authMiddleware = require('./middleware/authenticationMiddleware');
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use(authMiddleware);
+
 
 main().catch(err => console.log(err));
 
@@ -49,7 +47,7 @@ passport.use(new LocalStrategy(
     }
   }
 ));
-// Serialize and deserialize user instances to and from the session
+
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
@@ -71,18 +69,28 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+const isLoggedIn = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/login');
+};
+
+app.use('/', routes);
+
 app.get('/login', (req, res) => {
-  res.render('pages/login');
+  res.render('pages/login',{ req: req });
 });
 
 app.post('/login', passport.authenticate('local', {
-  successRedirect: '/dashboard',
+  successRedirect: '/home',
   failureRedirect: '/login'
 }));
 
 app.get('/dashboard', (req, res) => {
   if (req.isAuthenticated()) {
     res.send('Dashboard page');
+    console.log(req.user);
   } else {
     res.redirect('/login');
   }
@@ -99,7 +107,7 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/signup', (req, res) => {
-  res.render('pages/signup');
+  res.render('pages/signup',{ req: req });
 });
 
 app.post('/signup', async (req, res) => {
@@ -132,7 +140,7 @@ app.post('/signup', async (req, res) => {
     return res.redirect('/signup');
   }
 });
-
+module.exports = isLoggedIn;
 
 io.on('connection', (socket) => {
   console.log('A user connected.');
