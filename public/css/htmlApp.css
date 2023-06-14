@@ -697,3 +697,31 @@ footer a {
 .fa-twitter:hover {
 	color: #00acee;
 }
+
+.admin-user {
+	float: right;
+}
+
+button.admin-user {
+	margin-left: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: medium;
+    border: none;
+    color: white;
+    background-color: #31c2c7;
+    cursor: pointer;
+}
+
+button.admin-user:hover {
+    background-color: #28deef;
+}
+
+
+button.admin-delete {
+    background-color: #cd5c5c !important;
+}
+
+button.admin-delete:hover {
+    background-color: #b93131 !important;
+}

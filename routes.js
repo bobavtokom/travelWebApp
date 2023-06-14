@@ -91,14 +91,14 @@ router.post('/save-article', function(req, res) {
         }
     })
   .then(() =>{
-    res.redirect('/display');
+    res.redirect('/home');
   })
   .catch((error) => {
     const newDestination = new DestinationModel
     ({ title, description, imageText, imageUrl});
     newDestination.save()
     .then(() => {
-      res.redirect('/display');
+      res.redirect('/home');
     })
     .catch((err) => {
       console.error('Error saving data', err);

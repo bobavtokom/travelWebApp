@@ -107,7 +107,7 @@ function DeleteArticle(element) {
         if (this.status == 200) {
           const tekst = `Successfully deleted article with ID: ${this.responseText}`;
           alert(tekst);
-          window.location='/display';
+          window.location='/home';
         }
       }
     }

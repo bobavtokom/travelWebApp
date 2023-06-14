@@ -25,7 +25,8 @@
 				  	<button id="like-button" onclick="like('<%= article._id %>')"><i class="fa fa-thumbs-up"></i> Like</button>
 				  	<button id="dislike-button" onclick="dislike('<%= article._id %>')"><i class="fa fa-thumbs-down"></i> Dislike</button>
 				  	<% if (req.isAuthenticated()){ %>
-						<a href="/save-article/<%= article._id %>">Edit</a>
+						<a href="/save-article/<%= article._id %>"><button class="admin-user">Edit</button></a>
+						<button class="admin-user admin-delete" data-article-id="<%= article._id %>" onclick="DeleteArticle(this)">Delete</button>
 					<% } %>
 				  <div>
 					<span id="like-count-<%= article._id %>"><%= article.likes %></span> likes,
