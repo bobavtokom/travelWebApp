@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html>
-	<script src="js/likeDislike.js"></script>
-
 <head>
 	<%- include('../partials/_head') %>
 	
@@ -14,23 +12,7 @@
 		<%- include('../partials/_sidebar') %>
 		
 		<section class="left">
-			<div id="top-rated">
-				<% let articles=data %>
-				<% let topLiked = articles.sort((a, b) => b.likes - a.likes); %>
-				<% topLiked = topLiked.slice(0,3); %>
-				<% topLiked.forEach(article => { %>
-					<div class="container article-world <%= article.klass %>" id="<%= article._id %>">
-						<a href="/destination/<%= article._id %>">
-							<h2 class="article-title"><%= article.title %></h2>
-							<img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
-						</a>
-					  <div>
-						<span id="like-count-<%= article._id %>"><%= article.likes %></span> likes,
-						<span id="dislike-count-<%= article._id %>"><%= article.dislikes %></span> dislikes
-					  </div>
-					</div>
-				  <% }) %>
-			</div>
+			<div id="top-rated" data-top-number="3"></div>
 		</section>
 		<section class="center">
 			<% data.forEach(article => { %>
@@ -40,8 +22,11 @@
 						<img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
 						<p class="description"><%= article.description.substring(0,100) %> ... more</p>
 					</a>
-				  <button id="like-button" onclick="like('<%= article._id %>')"><i class="fa fa-thumbs-up"></i> Like</button>
-				  <button id="dislike-button" onclick="dislike('<%= article._id %>')"><i class="fa fa-thumbs-down"></i> Dislike</button>
+				  	<button id="like-button" onclick="like('<%= article._id %>')"><i class="fa fa-thumbs-up"></i> Like</button>
+				  	<button id="dislike-button" onclick="dislike('<%= article._id %>')"><i class="fa fa-thumbs-down"></i> Dislike</button>
+				  	<% if (req.isAuthenticated()){ %>
+						<a href="/save-article/<%= article._id %>">Edit</a>
+					<% } %>
 				  <div>
 					<span id="like-count-<%= article._id %>"><%= article.likes %></span> likes,
 					<span id="dislike-count-<%= article._id %>"><%= article.dislikes %></span> dislikes
@@ -76,9 +61,7 @@
 <footer>
 	<%- include('../partials/_footer') %>
 </footer>
-    <script src="js/script.js"></script>
-	<script src="js/jqueryScript.js"></script>
-	<script type="module" src="js/music.js"></script>
 	<script src="dist/bundle.js" type="module"></script>
+	<script> GetTopLikedArticle("top-rated"); </script>
 </body>
 </html>

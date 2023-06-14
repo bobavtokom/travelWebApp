@@ -3,10 +3,13 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const DestinationModel = require('./models/destinationModel');
 const ChatMessage = require('./models/LiveChatModel');
-
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const isLoggedIn = require('./middleware/authenticationMiddleware');
 
 router.get("/", function(req, res){
-    res.render("pages/index");
+    res.render("pages/index", { req: req });
 });
 router.get("/destination/:id", function(req, res){
   const showId = req.params.id;
@@ -16,14 +19,14 @@ router.get("/destination/:id", function(req, res){
   })
 });
 router.get("/about", function(req,res){
-    res.render('pages/about');
+    res.render('pages/about',{ req: req });
 });
 router.get("/contact", function(req,res){
-    res.render('pages/contact');
+    res.render('pages/contact',{ req: req });
 });
 
-router.get('/create', function(req, res) {
-  res.render("pages/create");
+router.get('/create', isLoggedIn,(req, res) => {
+    res.render("pages/create", { req: req });
 });
 
 router.post('/create', function(req, res) {
@@ -54,11 +57,14 @@ router.post('/delete-article/:id', function(req, res) {
   });
 });
 
-router.get('/save-article/:id', function(req,res) {
+router.get('/save-article/:id', isLoggedIn,(req, res) => {
   const articleId = req.params.id;
   DestinationModel.findById({_id: articleId})
   .then((data) => {
-    res.render("pages/save-article", {article: data});
+    res.render("pages/save-article", {article: data, req: req});
+  })
+  .catch(() => {
+    res.render("pages/save-article", {article: { _id: 0, title: "", description: "", imageText: "", imageUrl: "", likes: 0, dislikes: 0 }, req: req});
   });
 });
 
@@ -85,14 +91,14 @@ router.post('/save-article', function(req, res) {
         }
     })
   .then(() =>{
-    res.redirect('/home');
+    res.redirect('/display');
   })
   .catch((error) => {
     const newDestination = new DestinationModel
     ({ title, description, imageText, imageUrl});
     newDestination.save()
     .then(() => {
-      res.redirect('/home');
+      res.redirect('/display');
     })
     .catch((err) => {
       console.error('Error saving data', err);
@@ -100,17 +106,17 @@ router.post('/save-article', function(req, res) {
   });
 });
 
-router.get('/display', (req, res) => {
+router.get('/display',  isLoggedIn,(req, res) => {
   DestinationModel.find()
   .then((data) => {
-    res.render('pages/display',{data})
+    res.render('pages/display',{data: data, req: req})
   }
 )});
 
 router.get('/home', async (req, res) => {
     DestinationModel.find()
     .then((data) => {
-      res.render('pages/htmlApp', { data });
+      res.render('pages/htmlApp', { data: data, req: req });
     })
     .catch((err) => {
       if (err) {
@@ -122,17 +128,17 @@ router.get('/home', async (req, res) => {
  // Add these routes after the '/home' route
 
 router.get("/topLiked/:n", async (req, res) => {
-const topN = req.params.n;
-DestinationModel.find().sort({likes: -1}).limit(topN)
-.then((data) => {
-  res.status(200).send(data);
-})
-.catch((err) => {
-  if (err) {
-    console.error('Error getting top liked destination.', err);
-    res.status(500).send('Internal Server Error');
-  }
-})
+  const topN = req.params.n;
+  DestinationModel.find().sort({likes: -1}).limit(topN)
+  .then((data) => {
+    res.status(200).send(data);
+  })
+  .catch((err) => {
+    if (err) {
+      console.error('Error getting top liked destination.', err);
+      res.status(500).send('Internal Server Error');
+    }
+  })
 });
 
 // Like action route

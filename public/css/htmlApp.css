@@ -328,6 +328,9 @@ nav a.active:hover {
 	background-size: cover;
 	background-position: center;
 }
+#logged-user {
+	color: #a3ef28;
+}
 .drop > li {
 	width: 100%;
 	
@@ -516,6 +519,21 @@ section>h1 {
 
 .contact-form input[type=text],
 input[type=email],
+select,
+textarea {
+	width: 100%;
+	padding: 12px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	margin-top: 6px;
+	margin-bottom: 16px;
+	resize: vertical;
+}
+
+#form input[type=text],
+input[type=email],
+input[type=password],
 select,
 textarea {
 	width: 100%;
