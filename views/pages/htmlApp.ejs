@@ -22,9 +22,11 @@
 						<img class="image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
 						<p class="description"><%= article.description.substring(0,100) %> ... more</p>
 					</a>
-				  <button id="like-button" onclick="like('<%= article._id %>')"><i class="fa fa-thumbs-up"></i> Like</button>
-				  <button id="dislike-button" onclick="dislike('<%= article._id %>')"><i class="fa fa-thumbs-down"></i> Dislike</button>
-				  <a href="/destinations/<%= article._id %>/edits">Update</a>
+				  	<button id="like-button" onclick="like('<%= article._id %>')"><i class="fa fa-thumbs-up"></i> Like</button>
+				  	<button id="dislike-button" onclick="dislike('<%= article._id %>')"><i class="fa fa-thumbs-down"></i> Dislike</button>
+				  	<% if (req.isAuthenticated()){ %>
+						<a href="/save-article/<%= article._id %>">Edit</a>
+					<% } %>
 				  <div>
 					<span id="like-count-<%= article._id %>"><%= article.likes %></span> likes,
 					<span id="dislike-count-<%= article._id %>"><%= article.dislikes %></span> dislikes

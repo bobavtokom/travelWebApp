@@ -57,14 +57,14 @@ router.post('/delete-article/:id', function(req, res) {
   });
 });
 
-router.get('/save-article/:id', function(req,res) {
+router.get('/save-article/:id', isLoggedIn,(req, res) => {
   const articleId = req.params.id;
   DestinationModel.findById({_id: articleId})
   .then((data) => {
-    res.render("pages/save-article", {article: data});
+    res.render("pages/save-article", {article: data, req: req});
   })
   .catch(() => {
-    res.render("pages/save-article", {article: { _id: 0, title: "", description: "", imageText: "", imageUrl: "", likes: 0, dislikes: 0 }});
+    res.render("pages/save-article", {article: { _id: 0, title: "", description: "", imageText: "", imageUrl: "", likes: 0, dislikes: 0 }, req: req});
   });
 });
 
@@ -106,10 +106,10 @@ router.post('/save-article', function(req, res) {
   });
 });
 
-router.get('/display', (req, res) => {
+router.get('/display',  isLoggedIn,(req, res) => {
   DestinationModel.find()
   .then((data) => {
-    res.render('pages/display',{data})
+    res.render('pages/display',{data: data, req: req})
   }
 )});
 
