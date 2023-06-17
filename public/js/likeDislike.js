@@ -73,12 +73,11 @@ function dislike(articleId) {
     });
 }
 
-const SaveArticleElement = document.querySelector("#form-save-article");
-if (SaveArticleElement) {
+document.querySelectorAll("#form-save-article").forEach(SaveArticleElement => {
   SaveArticleElement.addEventListener('submit', (e) => {
-      e.preventDefault();
-    });
-}
+        e.preventDefault();
+  });
+})
 
 function SaveArticle(element) {
   document.querySelector("#form-save-article").submit();
