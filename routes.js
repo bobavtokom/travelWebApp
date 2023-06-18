@@ -15,7 +15,7 @@ router.get("/destination/:id", function(req, res){
   const showId = req.params.id;
   DestinationModel.findById({_id: showId})
   .then((data) => {
-    res.render('pages/show', {article: data});
+    res.render('pages/show', {article: data, req: req});
   })
 });
 router.get("/about", function(req,res){

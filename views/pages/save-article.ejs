@@ -5,7 +5,6 @@
 	
 	<%- include('../partials/_head') %>
 	
-    <link rel="stylesheet" type="text/css" href="/css/chat.css">
 	<link rel="stylesheet" type="text/css" href="/css/save-article.css">
 	
 </head>
@@ -15,8 +14,7 @@
 
 </header>
 	<div class="text-center">
-		<% let z = article._id == 0 ? "New " : "Edit "; %>
-		<h1 id="save-article-heading"><%= z %> Article</h1>
+		<h1 id="save-article-heading"><%= article._id == 0 ? "New " : "Edit "; %> Article</h1>
 	</div>
 	<main class="save-article-container">
 		<%- include('../partials/_sidebar') %>
@@ -25,7 +23,7 @@
 			<img class="image" id="save-article-image" src="<%= article.imageUrl %>" alt="<%= article.imageText %>">
 		</div>
 		<div>
-			<form id="form-save-article" action="/save-article" method="POST">
+			<form id="form-save-article" action="/save-article" method="POST" novalidate>
 				<div class="mb-3">
 					<label for="_id" class="form-label">_id</label>
 					<input type="text" class="form-control" id="_id" name="_id" readonly value="<%= article._id %>">
@@ -71,8 +69,6 @@
 <footer>
 	<%- include('../partials/_footer') %>
 </footer>
-	<script src="/js/jqueryScript.js"></script>
-	<script type="module" src="/js/music.js"></script>
 	<script src="/dist/bundle.js" type="module"></script>
 </body>
 </html>

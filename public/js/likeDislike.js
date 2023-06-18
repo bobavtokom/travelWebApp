@@ -33,7 +33,7 @@ function GetTopLikedArticle(id) {
   }
 }
 
-function like (articleId) {
+function like(articleId) {
     // Send AJAX POST request to the like action route
     fetch(`/like/${articleId}`, {
         method: 'POST',
@@ -73,14 +73,30 @@ function dislike(articleId) {
     });
 }
 
-document.querySelectorAll("#form-save-article").forEach(SaveArticleElement => {
-  SaveArticleElement.addEventListener('submit', (e) => {
-        e.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("#form-save-article").forEach(SaveArticleElement => {
+    SaveArticleElement.addEventListener('submit', (e) => {
+          e.preventDefault();
+    });
   });
-})
+});
 
 function SaveArticle(element) {
-  document.querySelector("#form-save-article").submit();
+  const formElement = document.querySelector("#form-save-article")
+  const titleElement = formElement.querySelector("#title");
+  const imageUrlElement = formElement.querySelector("#imageUrl");
+  if (titleElement.value.length>0) {
+    if (imageUrlElement.value.length>0) {
+      formElement.submit();
+    } else {
+      alert("Please input image URL!");
+      imageUrlElement.focus();
+    }
+  } else {
+    alert("Please input destiantion title!");
+    titleElement.focus();
+  }
+  
 }
 
 function NewArticle(element) {
@@ -91,6 +107,8 @@ function NewArticle(element) {
   rootElement.querySelector("#description").value="";
   rootElement.querySelector("#likes").value="0";
   rootElement.querySelector("#dislikes").value="0";
+  rootElement.querySelector('input[data-likes]').setAttribute("data-likes","0");
+  rootElement.querySelector('input[data-dislikes]').setAttribute("data-dislikes","0");
   rootElement.parentElement.parentElement.querySelector("#save-article-image").src="";
   rootElement.parentElement.parentElement.querySelector("#save-article-image").alt="";
   document.querySelector("#save-article-heading").innerHTML = "New Article";

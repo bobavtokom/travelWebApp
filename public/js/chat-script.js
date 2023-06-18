@@ -26,7 +26,7 @@ socket.on('connect', () => {
 });
 
 // Handle form submission
-document.getElementById('form').addEventListener('submit', (e) => {
+document.getElementById('form-chat').addEventListener('submit', (e) => {
   e.preventDefault();
   const messageInput = document.getElementById('input');
   const message = messageInput.value;

@@ -100,3 +100,27 @@ input[readonly] {
 main.modify-article {
     display: block;
 }
+
+.data-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    flex-direction: row;
+  }
+
+  .data-item {
+    width: 300px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+
+  .data-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  .data-title {
+    font-weight: bold;
+  }

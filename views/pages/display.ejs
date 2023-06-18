@@ -4,33 +4,8 @@
 
 <head>
   <%- include('../partials/_head') %>
-    <title>Edit Articles</title>
-    <link rel="stylesheet" type="text/css" href="/css/save-article.css">
-    <style>
-      .data-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-evenly;
-        flex-direction: row;
-      }
-
-      .data-item {
-        width: 300px;
-        margin-bottom: 20px;
-        border: 1px solid #ccc;
-        padding: 10px;
-      }
-
-      .data-image {
-        max-width: 100%;
-        height: auto;
-        margin-bottom: 10px;
-      }
-
-      .data-title {
-        font-weight: bold;
-      }
-    </style>
+  <link rel="stylesheet" type="text/css" href="/css/save-article.css">
+  <title>Edit Articles</title>
 </head>
 <header>
   <%- include("../partials/_header") %>
@@ -55,9 +30,8 @@
           <p class="data-title">
             <%= item.title %>
           </p>
-          <button class="form-button" onclick="window.location='save-article/<%= item._id %>'">Edit</button>
-          <button class="form-button button-delete" data-article-id="<%= item._id %>"
-            onclick="DeleteArticle(this)">Delete</button>
+          <button class="form-button" onclick="window.location='/save-article/<%= item._id %>'">Edit</button>
+          <button class="form-button button-delete" data-article-id="<%= item._id %>" onclick="DeleteArticle(this)">Delete</button>
         </div>
         <% }); %>
     </div>
